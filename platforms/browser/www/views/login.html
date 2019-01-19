@@ -1,0 +1,104 @@
+<div class="card" id="vue-login" style="padding-top:20vh;">
+  <div
+    class="alert alert-primary marker_info"
+    id="marker_info"
+    v-on:click="greet"
+    role="alert"
+    style=" position: relative; top: 20px;"
+  >
+    {{ trans.login.texts.text.start }}
+  </div>
+
+  <div class="card-body">
+    <div
+      id="form_login_error"
+      v-if="error"
+      class="alert alert-danger"
+      role="alert"
+    >
+      {{ error }}
+    </div>
+
+    <form id="form_login" method="POST" v-on:submit.prevent="send">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"> <b> + </b> </span>
+        </div>
+        <input
+          type="tel"
+          v-model="phone"
+          class="form-control"
+          id="phone"
+          name="phone"
+          :placeholder="this.trans.login.input.attr.placeholder.phone"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="search"
+          v-model="name"
+          class="form-control"
+          id="name"
+          name="name"
+          :placeholder="this.trans.login.input.attr.placeholder.name"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="search"
+          v-model="email"
+          class="form-control"
+          id="email"
+          name="email"
+          :placeholder="this.trans.login.input.attr.placeholder.email"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="submit"
+          class="btn btn-raised btn-warning"
+          data-toggle="submit"
+          :value="this.trans.login.input.attr.value.register"
+        />
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let vueLogin = new Vue({
+    el: "#vue-login",
+    data: {
+      trans: trans,
+      phone: "",
+      email: "",
+      name: "",
+      error: null
+    },
+    methods: {
+      send: function() {
+        let send = { phone: this.phone, email: this.email, name: this.name };
+        document.getElementById("marker_info").style.display = "none";
+        if (send.phone.trim() == "") {
+          this.error = this.trans.login.texts.errors.required;
+          return;
+        }
+
+        ManageAccount.Register(send).then(e => {
+          if (e.action === true) {
+            Account.phone = e.user.phone;
+            Account.email = e.user.email;
+            Account.name = e.user.name;
+            ManageAccount.Save();
+            Nav.Set("confirm");   
+        } else {
+            this.error = e.message;
+          }
+        });
+      },
+      greet: function(event) {
+        document.getElementById("marker_info").style.display = "none";
+      }
+    }
+  });
+</script>

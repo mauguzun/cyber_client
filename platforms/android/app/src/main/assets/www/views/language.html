@@ -1,0 +1,33 @@
+<div class="card" style="padding-top:20vh;">
+    <div class="card-body" id="lang">
+        <h2 class="card-title">{{trans.lang.texts.title.change}}</h2>
+        <select v-model="selected" class="form-control" @change="select">
+            <option value="" disabled selected>{{trans.lang.texts.title.change}}</option>
+            <option v-for="(value) in langs" :value="value.code">{{value.name}}</option>
+
+        </select>
+
+    </div>
+</div>
+
+
+
+<script>
+
+    new Vue({
+        el: "#lang",
+        data: {
+            trans: trans,
+            selected: transObj.GetCurrentCode(),
+            langs: transObj.List
+        },
+        methods: {
+            select: function () {
+                //1 setup a lang
+                transObj.LoadLang(this.selected);
+                location.reload();
+            }
+        }
+    });
+
+</script>

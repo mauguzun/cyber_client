@@ -1,0 +1,231 @@
+<div id="map" style="border:1px solid red; height:100vh;">
+  <div class="google-map-address">
+    <h4 v-on:click="openAuto('start')">
+      <span> {{ start }} </span>
+    </h4>
+    <h4 v-on:click="openAuto('stop')">
+      <span> {{ stop }} </span>
+    </h4>
+    <div class="alert text-light bg-dark">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+        <strong>{{trans.map.texts.blocks.warning }}</strong> 
+      </div>
+  </div>
+
+  <div  v-show="edit"  class="google-map-complete">
+    <p @click="edit = null ">close</p>
+    <div class="form-field">
+      <input type="text" v-model="edit" id="autoAddress" class="form-control"  />
+    </div>
+  </div>
+
+  <div class="google-map-order" >
+    <button type="button" class="btn btn-danger btn-lg btn-block">  {{ trans.map.links.order }}</button>  
+  </div>
+
+  <div id="gmap" style="position:relative;height:100vh"></div>
+</div>
+<script>
+  var Map;
+  let vueGmap = new Vue({
+    el: "#map",
+    data: {
+      trans: trans,
+
+      points: {
+        start: {},
+        stop: {}
+      },
+      marker: {},
+      map: null,
+      driver: null,
+      distance: null,
+      duration: null,
+      polyline: null,
+      edit: null,
+      start: trans.map.input.attr.placeholder.start,
+      stop: trans.map.input.attr.placeholder.stop
+    },
+    methods: {
+      order() {
+        app.map.GetDirections();
+      },
+      init() {
+        this.map = new google.maps.Map(document.getElementById("gmap"), {
+          center: this.points.start.location,
+          zoom: 17,
+          disableDefaultUI: true
+        });
+        this.initmarker();
+      },
+      initmarker() {
+        
+        this.marker.start = new google.maps.Marker({
+          map: this.map,
+          position: this.points.start.location,
+          draggable: true,
+          icon: "img/icon.png"
+        });
+        this.marker.stop = new google.maps.Marker({
+          map: this.map,
+          draggable: true,
+          icon: "img/icon.png"
+        });
+
+        this.LocationByMarker("start");
+        this.map.setCenter(this.points.start.location);
+        let self = this;
+        for (const key in this.marker) {
+            google.maps.event.addListener(this.marker[key], "dragend", function (event) {
+                let location = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+                self.points[key].location = location;
+                self.LocationByMarker(key);
+            });
+        }
+      },
+
+      LocationByMarker(key) {
+        let self = this;
+        this.geocoder = this.geocoder || new google.maps.Geocoder();
+        this.geocoder.geocode({ location: self.points[key].location }, function(
+          results,
+          status
+        ) {
+          if (status === "OK" && results[0]) {
+            self.SetAddress(key, results[0].formatted_address);
+          }
+        });
+      },
+
+      SetupAuto(edit) {
+        var autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById("autoAddress")
+        );
+        autocomplete.bindTo("bounds", this.map);
+        autocomplete.setFields([
+          "address_components",
+          "geometry",
+          "icon",
+          "name"
+        ]);
+
+        var bindTo = edit;
+        var self = this;
+
+        autocomplete.addListener("place_changed", function() {
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            return;
+          }
+
+          if (place.geometry.viewport) {
+            self.map.fitBounds(place.geometry.viewport);
+          } else {
+            self.map.setCenter(place.geometry.location);
+          }
+
+          let address = "";
+          if (place.address_components) {
+            address = [
+              (place.address_components[0] &&
+                place.address_components[0].short_name) ||
+                "",
+              (place.address_components[1] &&
+                place.address_components[1].short_name) ||
+                "",
+              (place.address_components[2] &&
+                place.address_components[2].short_name) ||
+                ""
+            ].join(" ");
+          }
+
+          self.points[bindTo] = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+          };
+
+          self[bindTo] = `${address} ${place.name}`;
+          self.SetMarker(bindTo);
+          self.edit = null;
+        });
+      
+        
+      },
+
+     
+
+      openAuto(key) {
+        this.edit = this[key];
+        this.SetupAuto(key);
+      },
+
+      SetAddress(key, val) {
+        this[key] = val;
+      },
+
+      SetMarker(arg) {
+          // if (arg == 'start'){ this.SetDriverOnMap();}
+      
+          this.marker[arg].setPosition(this.points[arg]);
+          
+          
+      }
+    },
+    mounted: function() {
+      const getCurrentPosition = function() {
+        if (navigator.geolocation) {
+          return new Promise((resolve, reject) =>
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+              enableHighAccuracy: true
+            })
+          );
+        } else {
+          return new Promise(resolve => resolve({}));
+        }
+      };
+
+      getCurrentPosition()
+        .then(done => {
+          this.points.start = {
+            location: { lat: done.coords.latitude, lng: done.coords.longitude }
+          };
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(e => {
+          this.init();
+        });
+    }
+  });
+</script>
+
+<style>
+  .google-map-address {
+    position: absolute;
+    width: 100%;
+    z-index: 99;
+    padding: 10px;
+  }
+  .google-map-address h4 {
+    cursor: pointer;
+    font-size: 20px;
+    text-shadow: 1px 1px 5px #fff;
+  }
+  .google-map-complete {
+    position: absolute;
+    width: 100%;
+    z-index: 199;
+    padding: 10px;
+    background-color: rgba(255,255,255,.9);
+    height: 100vh;
+  }
+
+  .google-map-order {
+    position: absolute;
+    width: 100%;
+    z-index: 288;
+    padding: 1px;
+    bottom: 5px;
+  }
+</style>

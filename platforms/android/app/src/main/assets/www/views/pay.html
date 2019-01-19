@@ -1,0 +1,90 @@
+<div class="card" id="pay">
+    <div class="card-body align-content-center">
+
+     
+
+            <div  :display="infoText != null " class="alert">{{ infoText }}</div>
+           
+            <div class="input-group mb-3">
+                <input  type="search" v-model="number" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.code">
+            </div>
+          
+            <div class="input-group mb-3">
+                <input  value="2019"  type="search" v-model="expYear" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.expYear">
+            </div>
+            <div class="input-group mb-3">
+                <input value="03" type="search" v-model="expMonth" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.expMonth">
+            </div>
+            <div class="input-group mb-3">
+                <input type="search" v-model="cvc" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.cvc">
+            </div>
+
+            <button type="submit"  class="btn btn-danger"  @click="pay()" >{{this.trans.pay.button.text.pay}}</button>
+      
+
+    </div>
+    
+</div>
+</div>
+
+<script>
+    let vuePay  = null;
+      function regPay(order,cordova){
+
+     console.log("regpay ");
+
+     vuePay = new Vue({
+        el: "#pay",
+        data: {
+            trans: trans,
+            infoText:`${ order.order.price} eur  ${ trans.pay.text.title.page} `,
+            number : '4242424242424242' ,
+            expMonth: 12 ,
+            expYear: 2020 ,
+            cvc: 123 ,  
+            order:order
+        },
+        methods: {
+           pay (){
+
+            const apiKey = "pk_test_DAoIqiQoOJa30co9TfpoYe6Y";
+            cordova.plugins.stripe.setPublishableKey(apiKey);
+
+            var card = {
+                number: this.number, // 16-digit credit card number
+                expMonth: this.expMonth, // expiry month
+                expYear: this.expYear, // expiry year
+                cvc: this.cvc,  };
+                cordova.plugins.stripe.createCardToken(card,
+                token=>{
+                    
+                    let token_id =    token.id;
+                    let res =   app.api.PostData('pay',{
+                        token_id ,
+                        amount:order.order.price,
+                        id : order.order.id
+                    });
+
+                    res.then(e=>{
+                        if (e.action){
+                            this.infoText = e.message;
+                            app.order == null;
+
+                        }else{
+
+                        }
+                    })          
+                },
+                error=>{
+                   
+                     this.infoText = error.message;
+
+                });
+           }
+        }
+    });
+
+    }
+   
+
+</script>

@@ -1,0 +1,77 @@
+<div class="card" id="history_div">
+    <div class="card-body">
+
+        <h3>{{trans.text.title.page}}</h3>
+
+
+    </div>
+    <div class="body">
+        <center><h4 v-show="dataitems === null">{{trans.text.title.not_have_history}}</h4></center>
+
+        <template v-for="(item, index) in dataitems">
+            <div class="card card-body">
+                <h6>{{item.start_address}}</h6>
+                <h6>{{item.stop_address}}</h6>
+                <p>{{item.created}}</p>
+                <strong>{{item.price}}</strong>
+            </div>
+            <br />
+        </template>
+
+
+
+    </div>
+    <center><button class="btn btn-raised btn-warning" @click="update" style="200px;" >{{trans.text.title.page}} 
+        
+        {{perTime}}  </button></center>
+
+
+
+</div>
+
+<script>
+    new Vue({
+        el: '#history_div',
+        data: {
+            trans: trans.history,
+            perTime: 5,
+            startFrom: 0,
+            dataitems: null
+        },
+        methods: {
+            update() {
+
+                app.api.PostData("history", {
+                    perTime: this.perTime,
+                    startFrom: this.startFrom
+                })
+                    .then((e) => {
+                        if (e.action === true) {
+                            console.log(Object.keys(e.data).length)
+                            if (Object.keys(e.data).length > 0) {
+                                this.dataitems = e.data;
+
+                                if (Object.keys(e.data).length == this.perTime)
+                                    this.startFrom += this.perTime;
+                                else
+                                    this.startFrom = 0;
+
+                            } else {
+                                this.startFrom = 0;
+                            }
+
+                        }
+                    })
+
+
+            }
+
+
+        },
+
+        created() {
+            this.update()
+        }
+    })
+
+</script>
