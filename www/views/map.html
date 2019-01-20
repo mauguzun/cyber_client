@@ -13,13 +13,15 @@
   </div>
 
   <div  v-show="edit"  class="google-map-complete">
-    <p @click="edit = null ">close</p>
+   <i class="fa fa-times" @click="edit = null " aria-hidden="true"></i>
+
+    
     <div class="form-field">
-      <input type="text" v-model="edit" id="autoAddress" class="form-control"  />
+      <input type="search" v-model="edit" id="autoAddress" class="form-control"  />
     </div>
   </div>
 
-  <div class="google-map-order" >
+  <div class="google-map-order" v-show="points.stop" >
     <button type="button" class="btn btn-danger btn-lg btn-block">  {{ trans.map.links.order }}</button>  
   </div>
 
@@ -33,8 +35,8 @@
       trans: trans,
 
       points: {
-        start: {},
-        stop: {}
+        start: null,
+        stop: null
       },
       marker: {},
       map: null,
@@ -156,6 +158,7 @@
 
       openAuto(key) {
         this.edit = this[key];
+        //this.map.setCenter(this.points[key].location);
         this.SetupAuto(key);
       },
 
@@ -228,4 +231,8 @@
     padding: 1px;
     bottom: 5px;
   }
+
+
+  
+
 </style>

@@ -44,8 +44,13 @@
       crossorigin="anonymous"
     ></script>
     <script src="boot/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <link rel="stylesheet" href="boot/dist/css/bootstrap.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400%7COpen+Sans:300,400,600' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="boot/dist/css/bootstrap.min.css">
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
 <script>
@@ -56,9 +61,11 @@ let app = {};
 
   <body>
     <div id="mainpage">
-      <h1>{{ title }}</h1>
-      <p @click="load('login')">asd</p>
-      
+        <button  id="main_menu" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">icon</span>
+          </button>
+    
+         
       <div id="page">
 
       </div>

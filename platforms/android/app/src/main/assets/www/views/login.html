@@ -1,4 +1,4 @@
-<div class="card" id="vue-login" style="padding-top:20vh;">
+<div  id="vue-login" >
   <div
     class="alert alert-primary marker_info"
     id="marker_info"
@@ -65,6 +65,8 @@
   </div>
 </div>
 
+
+
 <script>
   let vueLogin = new Vue({
     el: "#vue-login",
@@ -90,8 +92,8 @@
             Account.email = e.user.email;
             Account.name = e.user.name;
             ManageAccount.Save();
-            Nav.Set("confirm");   
-        } else {
+            Nav.Set("confirm");
+          } else {
             this.error = e.message;
           }
         });
