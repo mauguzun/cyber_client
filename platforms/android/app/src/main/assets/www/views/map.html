@@ -6,6 +6,7 @@
     <h4 v-on:click="openAuto('stop')">
       <span> {{ stop }} </span>
     </h4>
+
     <div class="alert text-light bg-dark">
       <a
         href="#"
@@ -19,6 +20,68 @@
     </div>
   </div>
 
+  <!--Order card-->
+  <!-- <div class="google-map-complete over" v-if="Order != null"> -->
+  <div class="google-map-complete over" v-if="Order != null && Order.price != null ">
+    <div class="card" style="width: 100%;height: 100vh;">
+      <div class="card-body">
+        <h5 class="card-title">{{ trans.order.input.attr.value.order }}</h5>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <span class="badge badge-secondary">{{
+              trans.order.texts.title.start
+            }}</span
+            >{{ Order.start }}
+          </li>
+          <li class="list-group-item">
+            <span class="badge badge-secondary">{{
+              trans.order.texts.title.stop
+            }}</span
+            >{{ Order.stop }}
+          </li>
+          <li class="list-group-item">
+            <span class="badge badge-secondary">{{
+              trans.order.texts.title.price
+            }}</span
+            >{{ Order.price }} EUR 
+          </li>
+          <li class="list-group-item">
+            <span class="badge badge-secondary">{{
+              trans.order.texts.title.period
+            }}</span
+            >{{ (Order.duration / 60).toFixed(2) }} <strong>min</strong>
+          </li>
+          <li class="list-group-item">
+            <span class="badge badge-secondary">{{
+              trans.order.texts.title.await
+            }}</span
+            >{{ Order.driver_await }}
+          </li>
+          <li class="list-group-item">
+            <span class="badge badge-secondary">
+              {{ trans.order.texts.title.distance }}</span
+            >{{ (Order.distance / 1000).toFixed(2) }} <strong>km</strong>
+          </li>
+        </ul>
+        <a href="#" @click="MakeOrder()" class="btn btn-primary">
+          {{ trans.order.input.attr.value.order }}</a
+        >
+
+        <p class="card-text">{{ trans.order.texts.block.important }}</p>
+        <br />
+        <a
+          @click="Order = null "
+          class="close"
+          data-dismiss="alert"
+          aria-label="close"
+          title="close"
+          >×</a
+        >
+      </div>
+    </div>
+  </div>
+  <!--Order card-->
   <div v-show="edit" class="google-map-complete">
     <i class="fa fa-times" @click="edit = null " aria-hidden="true"></i>
 
@@ -35,10 +98,10 @@
   <div class="google-map-order" v-show="points.stop">
     <button
       type="button"
-      @click="preorder()"
+      @click="GetDirections()"
       class="btn btn-danger btn-lg btn-block"
     >
-      {{ trans.map.links.order }}
+      {{ buttonInfo }}
     </button>
   </div>
 
@@ -50,11 +113,12 @@
     el: "#map",
     data: {
       trans: trans,
-
+      buttonInfo: trans.map.links.order,
       points: {
         start: null,
         stop: null
       },
+      Order: null,
       marker: {},
       map: null,
       drivers: [],
@@ -66,9 +130,6 @@
       stop: trans.map.input.attr.placeholder.stop
     },
     methods: {
-      order() {
-        app.map.GetDirections();
-      },
       init() {
         this.map = new google.maps.Map(document.getElementById("gmap"), {
           center: this.points.start.location,
@@ -119,15 +180,11 @@
         });
       },
 
-      preorder() {},
-
       SetDriverOnMap() {
-        
-          for (var i = 0; this.drivers[i]; i++) {
-            this.drivers[i].setMap(null);
-          }
-       
-         
+        for (var i = 0; this.drivers[i]; i++) {
+          this.drivers[i].setMap(null);
+        }
+
         // clear old driver
         Api.PostData("/driver", this.points.start).then(e => {
           if (e.action === true) {
@@ -142,7 +199,19 @@
           }
         });
       },
+      MakeOrder() {
+        Order  =  this.Order;
+        Order.phone = Account.phone;
+        Order.code = Account.code;
 
+
+        app.order.SendOnServer();
+                    app.order.Timer();
+                    app.nav.SwithPage("page|already_have_order");
+
+
+
+      },
       SetupAuto(edit) {
         var autocomplete = new google.maps.places.Autocomplete(
           document.getElementById("autoAddress")
@@ -190,7 +259,7 @@
             lng: place.geometry.location.lng()
           };
 
-          self[bindTo] = `${address} ${place.name}`;
+          self[bindTo] = `${address} `;
           self.SetMarker(bindTo);
           self.edit = null;
         });
@@ -207,12 +276,66 @@
       },
 
       SetMarker(arg) {
-
         this.marker[arg].setPosition(this.points[arg]);
         if (arg == "start") {
           this.SetDriverOnMap();
         }
+      },
 
+      GetDirections() {
+        var self = this;
+        let directionsService = new google.maps.DirectionsService();
+      
+        directionsService.route(
+          {
+            origin: `${this.points.start.lat},${this.points.start.lng}`,
+            destination: `${this.points.stop.lat},${this.points.stop.lng}`,
+            travelMode: "DRIVING", //BICYCLING
+            drivingOptions: {
+              departureTime: new Date(/* now, or future date */),
+              trafficModel: "optimistic"
+            }
+          },
+          function(response, status) {
+            if (status === "OK") {
+              self.Order = {};
+              self.Order.distance = 0;
+              self.Order.duration = 0;
+              self.Order.polyline = response.routes[0].overview_polyline;
+              self.Order.start = self.start;
+              self.Order.stop = self.stop;
+
+              const legs = response.routes[0].legs;
+              for (var i = 0; i < legs.length; ++i) {
+                self.Order.distance += legs[i].distance.value;
+                self.Order.duration  += legs[i].duration.value;
+              }
+
+       
+
+              const sendData = {
+                distance: self.Order.distance,
+                duration: self.Order.duration,
+                address: self.start
+              };
+
+              Api.PostData("price", sendData).then(result => {
+                if (result.action === true) {
+
+         
+                  self.Order.points = self.points;
+                  self.Order.price = result.data.price;
+                  self.Order.driver_await = result.data.driver_await;
+                 
+                } else {
+                  self.buttonInfo = trans.gmap.texts.error;
+                }
+              });
+            } else {
+              self.buttonInfo = trans.gmap.texts.error;
+            }
+          }
+        );
       }
     },
     mounted: function() {
@@ -230,7 +353,10 @@
 
       getCurrentPosition()
         .then(done => {
-          this.points.start = { lat: done.coords.latitude, lng: done.coords.longitude };
+          this.points.start = {
+            lat: done.coords.latitude,
+            lng: done.coords.longitude
+          };
         })
         .catch(error => {
           console.log(error);
@@ -269,5 +395,8 @@
     z-index: 288;
     padding: 1px;
     bottom: 5px;
+  }
+  .over {
+    z-index: 400 !important;
   }
 </style>
