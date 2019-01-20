@@ -52,16 +52,19 @@ const ManageOrder = {
         Nav.Set("page|timeout"); // cam order new
         break;
       case 2:
-        Nav.Set("page|driver_arrived");
         this.Timer();
+        Nav.Set("page|driver_arrived");
+
         break;
       case 3:
-        Nav.Set("page|trip");
         this.Timer();
+        Nav.Set("page|trip");
+
         break;
       case 1:
-        Nav.Set("page|already_have_order");
         this.Timer();
+        Nav.Set("page|already_have_order");
+
         break;
       case 6:
         Nav.Set("pay"); // cam order new
@@ -76,7 +79,7 @@ const ManageOrder = {
         //0 , 7
         this.ClearTimer();
         this.ClearOrderData();
-        App.Set("map");
+        Nav.Set("map");
         break;
     }
   },

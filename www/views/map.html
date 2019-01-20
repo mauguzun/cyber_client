@@ -281,6 +281,10 @@
       },
 
       GetDirections() {
+
+        if(!ManageOrder.Finished()){
+          ManageOrder.RedirectByStatus();
+        }
         var self = this;
         let directionsService = new google.maps.DirectionsService();
 

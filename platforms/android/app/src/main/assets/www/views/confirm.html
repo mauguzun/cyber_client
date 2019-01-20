@@ -53,13 +53,15 @@
                         if (e.action === true) { 
                             ManageAccount.Save();
                             
-                            if (app.isPhone)
+                            if (app.isPhone){
                                 window.plugins.PushbotsPlugin.setAlias(app.account.acc.phone);
+                             }
                                
-                            if(e.user.orders == null)
-                            Nav.Set("map");
-                            else
-                            alert("redirect to map ")
+                                if(e.user.order != null){
+                                     ManageOrder.LoadOrderByID(e.user.order);
+                                }else{
+                                    Nav.Set("map");
+                                }
                         }
                         else {
                             this.error = e.message;

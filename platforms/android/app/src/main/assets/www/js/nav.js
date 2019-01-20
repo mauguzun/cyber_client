@@ -25,11 +25,7 @@ const Nav = {
          
           break;
 
-        case "order":
-          if (!app.order.Finished()) {
-            app.order.RedirectByStatus();
-          }
-          break;
+       
 
         case "login":
           this.SetPage("login");

@@ -3,7 +3,8 @@
 
      
 
-            <div  :display="infoText != null " class="alert">{{ infoText }}</div>
+            <div  :display="infoText != null" class="alert">{{ infoText }}</div>
+      
            
             <div class="input-group mb-3">
                 <input  type="search" v-model="number" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.code">
@@ -40,7 +41,7 @@
             expMonth: 12 ,
             expYear: 2020 ,
             cvc: 123 ,  
-            order:order
+
         },
         methods: {
            pay (){
@@ -57,19 +58,24 @@
                 token=>{
                     
                     let token_id =    token.id;
-                    let res =   app.api.PostData('pay',{
+                    let res =   Api.PostData('pay',{
                         token_id ,
-                        amount:order.order.price,
-                        id : order.order.id
+                        amount:Order.price,
+                        id : Order.id
                     });
 
+                  
+
                     res.then(e=>{
-                        if (e.action){
+                        console.log(e)
+                        if (e.result == true){
                             this.infoText = e.message;
-                            app.order == null;
-
+                            Order.status_id = 7;
+                            ManageOrder.Save();
+                            ManageOrder.RedirectByStatus();
+                         
                         }else{
-
+                            this.infoText = e.message;
                         }
                     })          
                 },
