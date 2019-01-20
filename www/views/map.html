@@ -7,22 +7,39 @@
       <span> {{ stop }} </span>
     </h4>
     <div class="alert text-light bg-dark">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-        <strong>{{trans.map.texts.blocks.warning }}</strong> 
-      </div>
-  </div>
-
-  <div  v-show="edit"  class="google-map-complete">
-   <i class="fa fa-times" @click="edit = null " aria-hidden="true"></i>
-
-    
-    <div class="form-field">
-      <input type="search" v-model="edit" id="autoAddress" class="form-control"  />
+      <a
+        href="#"
+        class="close"
+        data-dismiss="alert"
+        aria-label="close"
+        title="close"
+        >×</a
+      >
+      <strong>{{ trans.map.texts.blocks.warning }}</strong>
     </div>
   </div>
 
-  <div class="google-map-order" v-show="points.stop" >
-    <button type="button" class="btn btn-danger btn-lg btn-block">  {{ trans.map.links.order }}</button>  
+  <div v-show="edit" class="google-map-complete">
+    <i class="fa fa-times" @click="edit = null " aria-hidden="true"></i>
+
+    <div class="form-field">
+      <input
+        type="search"
+        v-model="edit"
+        id="autoAddress"
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  <div class="google-map-order" v-show="points.stop">
+    <button
+      type="button"
+      @click="preorder()"
+      class="btn btn-danger btn-lg btn-block"
+    >
+      {{ trans.map.links.order }}
+    </button>
   </div>
 
   <div id="gmap" style="position:relative;height:100vh"></div>
@@ -40,7 +57,7 @@
       },
       marker: {},
       map: null,
-      driver: null,
+      drivers: [],
       distance: null,
       duration: null,
       polyline: null,
@@ -59,12 +76,13 @@
           disableDefaultUI: true
         });
         this.initmarker();
+        this.SetDriverOnMap();
       },
+
       initmarker() {
-        
         this.marker.start = new google.maps.Marker({
           map: this.map,
-          position: this.points.start.location,
+          position: this.points.start,
           draggable: true,
           icon: "img/icon.png"
         });
@@ -75,26 +93,52 @@
         });
 
         this.LocationByMarker("start");
-        this.map.setCenter(this.points.start.location);
+        this.map.setCenter(this.points.start);
         let self = this;
         for (const key in this.marker) {
-            google.maps.event.addListener(this.marker[key], "dragend", function (event) {
-                let location = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-                self.points[key].location = location;
-                self.LocationByMarker(key);
-            });
+          google.maps.event.addListener(this.marker[key], "dragend", function(
+            event
+          ) {
+            let location = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+            self.points[key] = location;
+            self.LocationByMarker(key);
+          });
         }
       },
 
       LocationByMarker(key) {
         let self = this;
         this.geocoder = this.geocoder || new google.maps.Geocoder();
-        this.geocoder.geocode({ location: self.points[key].location }, function(
+        this.geocoder.geocode({ location: self.points[key] }, function(
           results,
           status
         ) {
           if (status === "OK" && results[0]) {
             self.SetAddress(key, results[0].formatted_address);
+          }
+        });
+      },
+
+      preorder() {},
+
+      SetDriverOnMap() {
+        
+          for (var i = 0; this.drivers[i]; i++) {
+            this.drivers[i].setMap(null);
+          }
+       
+         
+        // clear old driver
+        Api.PostData("/driver", this.points.start).then(e => {
+          if (e.action === true) {
+            e.points.forEach(element => {
+              let driver = new google.maps.Marker({
+                map: this.map,
+                position: element,
+                icon: "img/car.png"
+              });
+              this.drivers.push(driver);
+            });
           }
         });
       },
@@ -150,11 +194,7 @@
           self.SetMarker(bindTo);
           self.edit = null;
         });
-      
-        
       },
-
-     
 
       openAuto(key) {
         this.edit = this[key];
@@ -167,11 +207,12 @@
       },
 
       SetMarker(arg) {
-          // if (arg == 'start'){ this.SetDriverOnMap();}
-      
-          this.marker[arg].setPosition(this.points[arg]);
-          
-          
+
+        this.marker[arg].setPosition(this.points[arg]);
+        if (arg == "start") {
+          this.SetDriverOnMap();
+        }
+
       }
     },
     mounted: function() {
@@ -189,9 +230,7 @@
 
       getCurrentPosition()
         .then(done => {
-          this.points.start = {
-            location: { lat: done.coords.latitude, lng: done.coords.longitude }
-          };
+          this.points.start = { lat: done.coords.latitude, lng: done.coords.longitude };
         })
         .catch(error => {
           console.log(error);
@@ -220,7 +259,7 @@
     width: 100%;
     z-index: 199;
     padding: 10px;
-    background-color: rgba(255,255,255,.9);
+    background-color: rgba(255, 255, 255, 0.9);
     height: 100vh;
   }
 
@@ -231,8 +270,4 @@
     padding: 1px;
     bottom: 5px;
   }
-
-
-  
-
 </style>
