@@ -46,6 +46,7 @@ const ManageOrder = {
     }
 
     console.log("im redirec");
+    console.log(Order.status_id);
 
     switch (parseInt(Order.status_id)) {
       case 4:
@@ -97,7 +98,7 @@ const ManageOrder = {
     let self = this;
     this.timer = setInterval(function() {
       self.CheckOrderStatus();
-    }, 30);
+    }, 1000  *5 );
   },
 
   // to create order !
@@ -115,6 +116,10 @@ const ManageOrder = {
         }
 
         Order.status_id = Order.status_id;
+        console.log("Send on server");
+        console.log(Order);
+        console.log("Send on server");
+
         this.Save();
       }
     });
@@ -149,7 +154,7 @@ const ManageOrder = {
     }
   },
   Save() {
-    localStorage.setItem(this.indexname, JSON.stringify(Order));
+    localStorage.setItem(this.idnexname, JSON.stringify(Order));
   },
 
   LoadOrderByID(id) {

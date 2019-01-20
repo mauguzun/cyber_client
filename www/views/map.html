@@ -207,7 +207,8 @@
         
         ManageOrder.OrderAssing(this.MapOrder);
         ManageOrder.SendOnServer();
-        ManageOrder.RedirectByStatus();
+        ManageOrder.Timer();
+        Nav.Set("page|already_have_order")
       },
       SetupAuto(edit) {
        
