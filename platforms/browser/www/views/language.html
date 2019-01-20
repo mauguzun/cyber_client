@@ -18,13 +18,13 @@
         el: "#lang",
         data: {
             trans: trans,
-            selected: transObj.GetCurrentCode(),
-            langs: transObj.List
+            selected: Translate.GetCurrentCode(),
+            langs: Translate.list
         },
         methods: {
             select: function () {
                 //1 setup a lang
-                transObj.LoadLang(this.selected);
+                Translate.LoadLang(this.selected);
                 location.reload();
             }
         }

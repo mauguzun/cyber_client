@@ -16,10 +16,11 @@ const Nav = {
 
       switch (newPage) {
         case "pay":
-          regPay(app.order, cordova);
+          this.SetPage("pay");
           break;
 
         case "map":
+          if(ManageOrder.CanShowMap() )
           this.SetPage("map");
          
           break;

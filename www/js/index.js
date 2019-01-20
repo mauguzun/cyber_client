@@ -13,9 +13,10 @@ document.addEventListener("deviceready", function() {
 
     if (Account.phone != null) {
       ManageAccount.ServerLogined().then(e => {
-        if (e.action === true) {    
-          if(e.action.order != null){
-             alert("cjhec")
+        if (e.action === true) {   
+          console.log(e.user) 
+          if(e.user.order != null){
+             ManageOrder.LoadOrderByID(e.user.order);
           }else{
              Nav.Set("map");
           }

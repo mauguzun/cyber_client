@@ -22,7 +22,10 @@
 
   <!--Order card-->
   <!-- <div class="google-map-complete over" v-if="Order != null"> -->
-  <div class="google-map-complete over" v-if="Order != null && Order.price != null ">
+  <div
+    class="google-map-complete over"
+    v-if="MapOrder != null && MapOrder.price != null "
+  >
     <div class="card" style="width: 100%;height: 100vh;">
       <div class="card-body">
         <h5 class="card-title">{{ trans.order.input.attr.value.order }}</h5>
@@ -32,36 +35,36 @@
             <span class="badge badge-secondary">{{
               trans.order.texts.title.start
             }}</span
-            >{{ Order.start }}
+            >{{ MapOrder.start }}
           </li>
           <li class="list-group-item">
             <span class="badge badge-secondary">{{
               trans.order.texts.title.stop
             }}</span
-            >{{ Order.stop }}
+            >{{ MapOrder.stop }}
           </li>
           <li class="list-group-item">
             <span class="badge badge-secondary">{{
               trans.order.texts.title.price
             }}</span
-            >{{ Order.price }} EUR 
+            >{{ MapOrder.price }} EUR
           </li>
           <li class="list-group-item">
             <span class="badge badge-secondary">{{
               trans.order.texts.title.period
             }}</span
-            >{{ (Order.duration / 60).toFixed(2) }} <strong>min</strong>
+            >{{ (MapOrder.duration / 60).toFixed(2) }} <strong>min</strong>
           </li>
           <li class="list-group-item">
             <span class="badge badge-secondary">{{
               trans.order.texts.title.await
             }}</span
-            >{{ Order.driver_await }}
+            >{{ MapOrder.driver_await }}
           </li>
           <li class="list-group-item">
             <span class="badge badge-secondary">
               {{ trans.order.texts.title.distance }}</span
-            >{{ (Order.distance / 1000).toFixed(2) }} <strong>km</strong>
+            >{{ (MapOrder.distance / 1000).toFixed(2) }} <strong>km</strong>
           </li>
         </ul>
         <a href="#" @click="MakeOrder()" class="btn btn-primary">
@@ -71,7 +74,7 @@
         <p class="card-text">{{ trans.order.texts.block.important }}</p>
         <br />
         <a
-          @click="Order = null "
+          @click="MapOrder = null "
           class="close"
           data-dismiss="alert"
           aria-label="close"
@@ -108,7 +111,8 @@
   <div id="gmap" style="position:relative;height:100vh"></div>
 </div>
 <script>
-  var Map;
+
+  
   let vueGmap = new Vue({
     el: "#map",
     data: {
@@ -118,7 +122,7 @@
         start: null,
         stop: null
       },
-      Order: null,
+      MapOrder: null,
       marker: {},
       map: null,
       drivers: [],
@@ -200,19 +204,13 @@
         });
       },
       MakeOrder() {
-        Order  =  this.Order;
-        Order.phone = Account.phone;
-        Order.code = Account.code;
-
-
-        app.order.SendOnServer();
-                    app.order.Timer();
-                    app.nav.SwithPage("page|already_have_order");
-
-
-
+        
+        ManageOrder.OrderAssing(this.MapOrder);
+        ManageOrder.SendOnServer();
+        ManageOrder.RedirectByStatus();
       },
       SetupAuto(edit) {
+       
         var autocomplete = new google.maps.places.Autocomplete(
           document.getElementById("autoAddress")
         );
@@ -285,7 +283,7 @@
       GetDirections() {
         var self = this;
         let directionsService = new google.maps.DirectionsService();
-      
+
         directionsService.route(
           {
             origin: `${this.points.start.lat},${this.points.start.lng}`,
@@ -298,35 +296,30 @@
           },
           function(response, status) {
             if (status === "OK") {
-              self.Order = {};
-              self.Order.distance = 0;
-              self.Order.duration = 0;
-              self.Order.polyline = response.routes[0].overview_polyline;
-              self.Order.start = self.start;
-              self.Order.stop = self.stop;
+              self.MapOrder = Order;
+              self.MapOrder.distance = 0;
+              self.MapOrder.duration = 0;
+              self.MapOrder.polyline = response.routes[0].overview_polyline;
+              self.MapOrder.start = self.start;
+              self.MapOrder.stop = self.stop;
 
               const legs = response.routes[0].legs;
               for (var i = 0; i < legs.length; ++i) {
-                self.Order.distance += legs[i].distance.value;
-                self.Order.duration  += legs[i].duration.value;
+                self.MapOrder.distance += legs[i].distance.value;
+                self.MapOrder.duration += legs[i].duration.value;
               }
 
-       
-
               const sendData = {
-                distance: self.Order.distance,
-                duration: self.Order.duration,
+                distance: self.MapOrder.distance,
+                duration: self.MapOrder.duration,
                 address: self.start
               };
 
               Api.PostData("price", sendData).then(result => {
                 if (result.action === true) {
-
-         
-                  self.Order.points = self.points;
-                  self.Order.price = result.data.price;
-                  self.Order.driver_await = result.data.driver_await;
-                 
+                  self.MapOrder.points = self.points;
+                  self.MapOrder.price = result.data.price;
+                  self.MapOrder.driver_await = result.data.driver_await;
                 } else {
                   self.buttonInfo = trans.gmap.texts.error;
                 }
