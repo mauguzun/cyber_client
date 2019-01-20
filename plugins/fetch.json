@@ -6,5 +6,53 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "pushbots-cordova-plugin": {
+    "source": {
+      "type": "registry",
+      "id": "pushbots-cordova-plugin@^1.6.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-stripe": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-stripe"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-network-information": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-network-information"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-geolocation": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-geolocation@4.0.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-device": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-device"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-background-mode": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-background-mode"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

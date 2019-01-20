@@ -9,6 +9,24 @@
   "installed_plugins": {
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "tricypolitain.com"
+    },
+    "pushbots-cordova-plugin": {
+      "PACKAGE_NAME": "tricypolitain.com"
+    },
+    "cordova-plugin-stripe": {
+      "PACKAGE_NAME": "tricypolitain.com"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "tricypolitain.com"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "tricypolitain.com"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "tricypolitain.com"
+    },
+    "cordova-plugin-background-mode": {
+      "PACKAGE_NAME": "tricypolitain.com"
     }
   },
   "dependent_plugins": {}
