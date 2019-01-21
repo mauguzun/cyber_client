@@ -1,0 +1,111 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\new_cyber\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-de\\values-de.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\maugu\\.gradle\\caches\\transforms-1\\files-1.1\\stripe-android-4.1.2.aar\\c7e68935c3d8fdf370b3d5dcf7b1bf21\\res\\values-de\\values-de.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,120,183",
+                        "endColumns": "64,62,50",
+                        "endOffsets": "115,178,229"
+                    },
+                    "to": {
+                        "startLines": "19,20,39",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "1852,1917,4820",
+                        "endColumns": "64,62,50",
+                        "endOffsets": "1912,1975,4866"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\maugu\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\c64846fa144fb1b9c06e461698ec707f\\res\\values-de\\values-de.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "42",
+                        "startColumns": "4",
+                        "startOffsets": "5058",
+                        "endColumns": "100",
+                        "endOffsets": "5154"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\maugu\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-gcm-12.0.1.aar\\59f80e35b56e76d6ebe05cf6b7256c12\\res\\values-de\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "192",
+                        "endColumns": "100",
+                        "endOffsets": "292"
+                    },
+                    "to": {
+                        "startLines": "40",
+                        "startColumns": "4",
+                        "startOffsets": "4871",
+                        "endColumns": "104",
+                        "endOffsets": "4971"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\maugu\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-12.0.1.aar\\46f17ae825f51b5fc886faf9cbb40b9c\\res\\values-de\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "203",
+                        "endOffsets": "450"
+                    },
+                    "to": {
+                        "startLines": "29",
+                        "startColumns": "4",
+                        "startOffsets": "3200",
+                        "endColumns": "203",
+                        "endOffsets": "3399"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\maugu\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-12.0.1.aar\\764dc64f79c04331c58f00772a2a406e\\res\\values-de\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "245,352,548,674,784,1021,1150,1297,1441,1680,1790,1990,2119,2340,2542,2639,2728",
+                        "endColumns": "106,195,125,109,236,128,146,143,238,109,199,128,220,201,96,88,104",
+                        "endOffsets": "351,547,673,783,1020,1149,1296,1440,1679,1789,1989,2118,2339,2541,2638,2727,2832"
+                    },
+                    "to": {
+                        "startLines": "21,22,23,24,25,26,27,28,30,31,32,33,34,35,36,37,38",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "1980,2091,2287,2417,2531,2768,2901,3052,3404,3643,3757,3957,4090,4311,4517,4618,4711",
+                        "endColumns": "110,195,129,113,236,132,150,147,238,113,199,132,220,205,100,92,108",
+                        "endOffsets": "2086,2282,2412,2526,2763,2896,3047,3195,3638,3752,3952,4085,4306,4512,4613,4706,4815"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\maugu\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\4b0a7466abf297e916c0f75d2ae96f3e\\res\\values-de\\values-de.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,210,308,420,506,611,726,803,879,961,1072,1175,1274,1385,1487,1594,1750,1852",
+                        "endColumns": "104,97,111,85,104,114,76,75,81,110,102,98,110,101,106,155,101,81",
+                        "endOffsets": "205,303,415,501,606,721,798,874,956,1067,1170,1269,1380,1482,1589,1745,1847,1929"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,41",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,210,308,420,506,611,726,803,879,961,1072,1175,1274,1385,1487,1594,1750,4976",
+                        "endColumns": "104,97,111,85,104,114,76,75,81,110,102,98,110,101,106,155,101,81",
+                        "endOffsets": "205,303,415,501,606,721,798,874,956,1067,1170,1269,1380,1482,1589,1745,1847,5053"
+                    }
+                }
+            ]
+        }
+    ]
+}

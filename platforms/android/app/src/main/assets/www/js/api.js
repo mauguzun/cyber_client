@@ -1,5 +1,6 @@
 const Api = {
-  address: "http://localhost/cyber_project/api/",
+  // address: "http://localhost/cyber_project/api/",
+  address: "https://tricypolitain.com/api/",
 
   async PostData(url, data = null) {
 

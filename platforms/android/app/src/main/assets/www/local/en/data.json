@@ -101,12 +101,12 @@
 		"links": {
 			"order": "make a order",
 			"order_page": "order_page ,only for debug",
-			"thank_you": "thank_you ,only for debug",
 			"login": "make a login",
 			"logout": "make a logout",
 			"confirm": "make a confirm , only for debug ",
 			"lang": "choose lang",
 			"about": "about",
+			"pay": "pay",
 			"history": "view my historie",
 			"exit": "Close"
 		}

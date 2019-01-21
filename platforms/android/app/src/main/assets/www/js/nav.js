@@ -7,7 +7,7 @@ const Nav = {
     if (newPage != null && this.current !== newPage) {
       if (newPage.indexOf("|") > 0) {
         let page = newPage.split("|")[1];
-        console.log(page);
+
         Api.PostData("code", { page_name: page }).then(e => {
           document.getElementById("page").innerHTML = e.code;
         });
@@ -20,12 +20,10 @@ const Nav = {
           break;
 
         case "map":
-          if(ManageOrder.CanShowMap() )
-          this.SetPage("map");
-         
+          if (ManageOrder.CanShowMap()) {
+            this.SetPage("map");
+          }
           break;
-
-       
 
         case "login":
           this.SetPage("login");
@@ -39,8 +37,8 @@ const Nav = {
           this.ExitApp();
           break;
 
-        case "confirm":
-          this.SetPage("confirm");
+        default:
+          this.SetPage(newPage);
           break;
       }
 
@@ -48,6 +46,13 @@ const Nav = {
     }
   },
   SetPage(arg) {
+    for (key in app.pages) {
+      console.log(key);
+      if (Order.hasOwnProperty(key)) {
+        app.pages[key].$destroy();
+      }
+    }
+
     $("#page").load(`views/${arg}.html`);
   },
   ExitApp() {

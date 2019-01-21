@@ -133,6 +133,17 @@ let app = {};
                                     {{trans.menu.links.lang}}
                                 </a>
                             </li>
+
+
+                               
+                            <li>
+                                <a href="#"  
+                                @click.prevent="change"
+                                 data-link="exit">
+                                    <i class="fas fa-language"></i>
+                                    {{trans.menu.links.exit}}
+                                </a>
+                            </li>
                         </ul>
 
                 </ul>
@@ -166,14 +177,17 @@ let app = {};
 var menuInFunction = null;
 function makeMenu()
 {
+
+
    if(menuInFunction != null){
        menuInFunction.$forceUpdate();
    }else{
-    app.menu();
+  
+      app.menu();
    }
     
   
-   console.log(menuInFunction);
+ 
 }
 
   

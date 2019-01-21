@@ -1,13 +1,15 @@
 #main_menu{
-    font-size: 34px;
     position: fixed;
-    z-index: 9993;
-    right: 10px;
-    top:10px;
-    padding: 10px;
-    background :rgba(0, 0, 0,0.7);
-    cursor: pointer;
+    z-index: 777;
+    right: 5px;
+    top:5px;
     color: white;
-    
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    background: #c90090;
+}
 
+#menu_list{
+    background: rgba(0,0,0,.7);
 }

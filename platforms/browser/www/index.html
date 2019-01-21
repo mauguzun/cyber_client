@@ -61,11 +61,88 @@ let app = {};
 
   <body>
     <div id="mainpage">
-        <button  id="main_menu" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon">icon</span>
-          </button>
+
+<span id="menu">
+        <button  onclick="makeMenu()" id="main_menu" class="navbar-toggler" type="button" data-toggle="collapse"
+         data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+         <i class="fas fa-bars"></i> 
+        </button>
     
-         
+        <div class="collapse in" id="navbarToggleExternalContent" aria-expanded="true" >
+            <div class="menu">
+                <ul class="menu_list">
+                            <li class="sidebar-brand">
+                                <a href="#" style="color:black;">
+                                    {{userName()}} , {{trans.menu.text.greeting}}
+                                </a>
+                            </li>
+                     
+                            <li v-show="Account.code == null" >
+                                <a href="#" @click.prevent="change"
+                                    data-link="login">
+                                    <i class="fas fa-user"></i> {{trans.menu.links.login}}
+                                </a>
+                            </li>
+            
+            
+                            <li v-show="ManageOrder.CanShowMap() && Account.code != null">
+                                <a href="#" 
+                                @click.prevent="change" 
+                                data-link="map">
+                                    <i class="fas fa-plus"></i> {{trans.menu.links.order}}
+                                </a>
+            
+                            </li>
+            
+            
+                            <li v-show="Account.code != null">
+                                <a href="#"
+                                 @click.prevent="change" data-link="logout">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    {{trans.menu.links.logout}}</a>
+                            </li>
+            
+                            <li>
+                                <a href="#"  @click.prevent="change"
+                                 data-link="page|about">
+                                    <i class="fas fa-info"></i>
+                                    {{trans.menu.links.about}}
+                                </a>
+                            </li>
+                            <li v-show="Account.code != null">
+                                <a href="#" 
+                              
+                                @click.prevent="change" data-link="history">
+                                    <i class="fas fa-history"></i>
+                                    {{trans.menu.links.history}}
+                                </a>
+                            </li>
+                            <li v-show="!ManageOrder.Finished()">
+                                    <a href="#"  
+                                    @click.prevent="change"
+                                     data-link="pay">
+                                        <i class="fas fa-language"></i>
+                                        {{trans.menu.links.pay}}
+                                    </a>
+                                </li>
+                            <li>
+                                <a href="#"  
+                                @click.prevent="change"
+                                 data-link="language">
+                                    <i class="fas fa-language"></i>
+                                    {{trans.menu.links.lang}}
+                                </a>
+                            </li>
+                        </ul>
+
+                </ul>
+            </div>
+        </div>
+
+
+</span>
+
+
       <div id="page">
 
       </div>
@@ -82,8 +159,27 @@ let app = {};
   <script type="text/javascript" src="js/vue.js"></script>
   <script type="text/javascript" src="js/nav.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
+  <script type="text/javascript" src="js/menu.js"></script>
   
- 
+ <script>
+
+var menuInFunction = null;
+function makeMenu()
+{
+   if(menuInFunction != null){
+       menuInFunction.$forceUpdate();
+   }else{
+    app.menu();
+   }
+    
+  
+   console.log(menuInFunction);
+}
+
+  
+
+
+
+</script>
 
 </html>
