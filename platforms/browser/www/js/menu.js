@@ -1,4 +1,8 @@
 app.menu = function() {
+
+
+  
+
   menuInFunction = new Vue({
     el: "#menu",
     data: {

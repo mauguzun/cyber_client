@@ -21,7 +21,6 @@
   </div>
 
   <!--Order card-->
-  <!-- <div class="google-map-complete over" v-if="Order != null"> -->
   <div
     class="google-map-complete over"
     v-if="MapOrder != null && MapOrder.price != null "
@@ -85,13 +84,13 @@
     </div>
   </div>
   <!--Order card-->
-  <div v-show="edit" class="google-map-complete">
-    <i class="fa fa-times" @click="edit = null " aria-hidden="true"></i>
+  <div v-show="editValue" class="google-map-complete">
+    <i class="fa fa-times" @click="editValue = null " aria-hidden="true"></i>
 
     <div class="form-field">
       <input
         type="search"
-        v-model="edit"
+        v-model="editValue"
         id="autoAddress"
         class="form-control"
       />
@@ -130,6 +129,7 @@
       duration: null,
       polyline: null,
       edit: null,
+      editValue : null,
       start: trans.map.input.attr.placeholder.start,
       stop: trans.map.input.attr.placeholder.stop
     },
@@ -212,6 +212,7 @@
       },
       SetupAuto(edit) {
        
+        alert(edit)
         var autocomplete = new google.maps.places.Autocomplete(
           document.getElementById("autoAddress")
         );
@@ -261,11 +262,13 @@
           self[bindTo] = `${address} `;
           self.SetMarker(bindTo);
           self.edit = null;
+          self.editValue = null;
         });
       },
 
       openAuto(key) {
         this.edit = this[key];
+        this.editValue = " ";
         //this.map.setCenter(this.points[key].location);
         this.SetupAuto(key);
       },

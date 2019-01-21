@@ -4,44 +4,34 @@ app.pages = {};
 app.menu = null;
 
 document.addEventListener("deviceready", function() {
-
-  
-  
   Translate.LoadLang().then(result => {
-    // yea ? 
+    // yea ?
+
+    trans = result;
+    ManageAccount.Load();
+    
     if (app.isPhone) {
       runBackground(cordova);
       setPush();
     }
 
-    trans = result;
-    ManageAccount.Load();
-
     if (Account.phone != null) {
       ManageAccount.ServerLogined().then(e => {
-        
-        if (e.action === true) 
-        {   
-          if(e.user.order != null){
-             ManageOrder.LoadOrderByID(e.user.order);
-          }else{
-             Nav.Set("map");
-             return;
+        if (e.action === true) {
+          if (e.user.order != null) {
+            ManageOrder.LoadOrderByID(e.user.order);
+          } else {
+            Nav.Set("map");
+            return;
           }
-         
         }
         Nav.Set("login");
-       
       });
-    } 
-    else {
-    
-        Nav.Set("login");
+    } else {
+      Nav.Set("login");
     }
-   
   });
 });
-
 
 function runBackground(cordova) {
   cordova.plugins.backgroundMode.setEnabled(true);
@@ -49,25 +39,15 @@ function runBackground(cordova) {
   cordova.plugins.backgroundMode.on("activate", function() {
     //cordova.plugins.backgroundMode.disableWebViewOptimizations()
 
-
-   
-    // onlu for debug this shit , ook ?
-    window.setInterval(function() {
-      APi.PostData("test", {
-        q: "test"
+    cordova.plugins.backgroundMode.setDefaults({
+      title: trans.system.title,
+      text: trans.system.desc,
+      icon: "img/car.png", // this will look for icon.png in platforms/android/res/drawable|mipmap
+      color: "F14F4D", // hex format like 'F14F4D'
+      resume: true,
+      hidden: false,
+      bigText: trans.system.desc
     });
-
-    }, 1000 * 30); // each 1/2 minute
-  });
-
-  cordova.plugins.backgroundMode.setDefaults({
-    title: trans.system.title,
-    text: trans.system.desc,
-    icon: "img/car.png", // this will look for icon.png in platforms/android/res/drawable|mipmap
-    color: "F14F4D", // hex format like 'F14F4D'
-    resume: true,
-    hidden: false,
-    bigText: trans.system.desc
   });
 }
 
