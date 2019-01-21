@@ -25,6 +25,7 @@ const ManageAccount = {
   Logout() {
     localStorage.removeItem(this.idnexname);
     this.Clear();
+    location.reload();
   },
   Clear() {
     Account.code = null;

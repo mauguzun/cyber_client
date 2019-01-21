@@ -159,6 +159,7 @@ const ManageOrder = {
 
   LoadOrderByID(id) {
     Api.PostData("orderbyid", { id: id }).then(e => {
+      console.log(e)
       if (e.action === true) {
         if (e.data.status_id != 7) {
           this.OrderAssing(e.data);

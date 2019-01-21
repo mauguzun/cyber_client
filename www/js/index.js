@@ -1,23 +1,26 @@
 var trans = null;
 app.isPhone = window.cordova.platformId == "browser" ? false : true;
+app.pages = {};
+app.menu = null;
 
 document.addEventListener("deviceready", function() {
 
-   
-  if (app.isPhone) {
-    runBackground(cordova);
-    setPush();
-  }
+  
+  
   Translate.LoadLang().then(result => {
     // yea ? 
-    trans = result;
+    if (app.isPhone) {
+      runBackground(cordova);
+      setPush();
+    }
 
+    trans = result;
     ManageAccount.Load();
 
     if (Account.phone != null) {
       ManageAccount.ServerLogined().then(e => {
+        console.log(e);
         if (e.action === true) {   
-          console.log(e.user) 
           if(e.user.order != null){
              ManageOrder.LoadOrderByID(e.user.order);
           }else{
@@ -30,8 +33,8 @@ document.addEventListener("deviceready", function() {
       });
     } 
     else {
+    
         Nav.Set("login");
-     
     }
    
   });
@@ -45,13 +48,10 @@ function runBackground(cordova) {
     //cordova.plugins.backgroundMode.disableWebViewOptimizations()
 
 
-    if (!app.order.Finished()) {
-      app.order.CheckOrderStatus();
-    }// check 
-
+   
     // onlu for debug this shit , ook ?
     window.setInterval(function() {
-      app.api.PostData("test", {
+      APi.PostData("test", {
         q: "test"
     });
 

@@ -30,7 +30,7 @@
 </div>
 
 <script>
-    new Vue({
+    app.pages.history =  new Vue({
         el: '#history_div',
         data: {
             trans: trans.history,
@@ -41,7 +41,7 @@
         methods: {
             update() {
 
-                app.api.PostData("history", {
+                Api.PostData("history", {
                     perTime: this.perTime,
                     startFrom: this.startFrom
                 })
