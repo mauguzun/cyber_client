@@ -11,7 +11,11 @@ const Nav = {
         let page = newPage.split("|")[1];
 
         Api.PostData("code", { page_name: page }).then(e => {
-          document.getElementById("page").innerHTML = e.code;
+
+          $("#page").load(`views/about.html`,function() {
+            document.getElementById("error-page").innerHTML = e.code;
+          });
+         
         });
         return;
       }

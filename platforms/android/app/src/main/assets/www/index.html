@@ -36,135 +36,151 @@
       content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"
     />
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAX50gEvAyz9A6Sh3BMvC9eOblbLLZOses&libraries=places"
-        async defer></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAX50gEvAyz9A6Sh3BMvC9eOblbLLZOses&libraries=places"
+      async
+      defer
+    ></script>
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous"
     ></script>
     <script src="boot/dist/js/bootstrap.bundle.min.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400%7COpen+Sans:300,400,600' rel='stylesheet' type='text/css'>
+    <link
+      href="http://fonts.googleapis.com/css?family=Lato:300,400%7COpen+Sans:300,400,600"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
 
-
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="boot/dist/css/bootstrap.min.css">
+    <link href="styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="styles/framework.css" rel="stylesheet" type="text/css" />
+    <link href="styles/owl.theme.css" rel="stylesheet" type="text/css" />
+    <link href="styles/swipebox.css" rel="stylesheet" type="text/css" />
+    <link
+      href="font-awesome/css/font-awesome.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="styles/animate.css" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
-<script>
-let app = {};
-</script>
+    <script>
+      let app = {};
+    </script>
     <title></title>
   </head>
 
-  <body>
-    <div id="mainpage">
+  <body class="shadow">
+    <div class="all-elements">
+      <div class="snap-drawers">
+        <!-- Left Sidebar -->
+        <div class="snap-drawer snap-drawer-left">
+          <div class="sidebar-header">
+            <a class="sidebar-close" @click="close_menu"
+              ><i class="fa fa-times"></i
+            ></a>
+          </div>
+          
+          <a href="#" class="sidebar-logo"></a>
+          <div class="sidebar-decoration"></div>
+          <ul class="sidebar-menu">
+           
 
-<span id="menu">
-        <button  onclick="makeMenu()" id="main_menu" class="navbar-toggler" type="button" data-toggle="collapse"
-         data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-         <i class="fas fa-bars"></i> 
-        </button>
-    
-        <div class="collapse in" id="navbarToggleExternalContent" aria-expanded="true" >
-            <div class="menu">
-                <ul class="menu_list">
-                            <li class="sidebar-brand">
-                                <a href="#" style="color:black;">
-                                    {{userName()}} , {{trans.menu.text.greeting}}
-                                </a>
-                            </li>
-                     
-                            <li v-show="Account.code == null" >
-                                <a href="#" @click.prevent="change"
-                                    data-link="login">
-                                    <i class="fas fa-user"></i> {{trans.menu.links.login}}
-                                </a>
-                            </li>
-            
-            
-                            <li v-show="ManageOrder.CanShowMap() && Account.code != null">
-                                <a href="#" 
-                                @click.prevent="change" 
-                                data-link="map">
-                                    <i class="fas fa-plus"></i> {{trans.menu.links.order}}
-                                </a>
-            
-                            </li>
-            
-            
-                            <li v-show="Account.code != null">
-                                <a href="#"
-                                 @click.prevent="change" data-link="logout">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    {{trans.menu.links.logout}}</a>
-                            </li>
-            
-                            <li>
-                                <a href="#"  @click.prevent="change"
-                                 data-link="page|about">
-                                    <i class="fas fa-info"></i>
-                                    {{trans.menu.links.about}}
-                                </a>
-                            </li>
-                            <li v-show="Account.code != null">
-                                <a href="#" 
-                              
-                                @click.prevent="change" data-link="history">
-                                    <i class="fas fa-history"></i>
-                                    {{trans.menu.links.history}}
-                                </a>
-                            </li>
-                            <li v-show="!ManageOrder.Finished()">
-                                    <a href="#"  
-                                    @click.prevent="change"
-                                     data-link="pay">
-                                        <i class="fas fa-language"></i>
-                                        {{trans.menu.links.pay}}
-                                    </a>
-                                </li>
-                            <li>
-                                <a href="#"  
-                                @click.prevent="change"
-                                 data-link="language">
-                                    <i class="fas fa-language"></i>
-                                    {{trans.menu.links.lang}}
-                                </a>
-                            </li>
+            <li class="sidebar-brand">
+              <a href="#" style="color:black;">
+                {{ userName() }} , {{ trans.menu.text.greeting }}
+              </a>
+            </li>
 
+            <li class="active-menu" v-show="Account.code == null">
+              <a href="#" @click.prevent="change" data-link="login">
+                <i class="fas fa-user"></i> {{ trans.menu.links.login }}<i class="fa fa-circle"></i
+                    >
+              </a>
+            </li>
 
-                               
-                            <li>
-                                <a href="#"  
-                                @click.prevent="change"
-                                 data-link="exit">
-                                    <i class="fas fa-language"></i>
-                                    {{trans.menu.links.exit}}
-                                </a>
-                            </li>
-                        </ul>
+            <li class="active-menu" v-show="ManageOrder.CanShowMap() && Account.code != null">
+              <a href="#" @click.prevent="change" data-link="map">
+                <i class="fa fa-file"></i> {{ trans.menu.links.order }}<i class="fa fa-circle"></i >
+              </a>
+            </li>
 
-                </ul>
-            </div>
+            <li class="active-menu"  v-show="Account.code != null">
+              <a href="#" @click.prevent="change" data-link="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                {{ trans.menu.links.logout }}<i class="fa fa-circle"></i></a>
+            </li>
+
+            <li class="active-menu">
+              <a href="#" @click.prevent="change" data-link="page|about">
+                <i class="fa fa-home"></i> {{ trans.menu.links.about }}<i class="fa fa-circle"></i >
+                </a>
+            </li>
+            <li class="active-menu"  v-show="Account.code != null">
+              <a href="#" @click.prevent="change" data-link="history">
+                <i class="fas fa-history"></i> {{ trans.menu.links.history }}<i class="fa fa-circle"></i >
+                </a>
+            </li>
+            <li  class="active-menu" v-show="!ManageOrder.Finished()">
+              <a href="#" @click.prevent="change" data-link="pay">
+                <i class="fas fa-language"></i> {{ trans.menu.links.pay }}<i class="fa fa-circle"></i >
+              </a>
+            </li>
+            <li class="active-menu" >
+              <a href="#" @click.prevent="change" data-link="language">
+                <i class="fas fa-language"></i> {{ trans.menu.links.lang }}<i class="fa fa-circle"></i >
+              </a>
+            </li>
+
+            <li class="active-menu" >
+              <a href="#" @click.prevent="change" data-link="exit">
+                <i class="fas fa-times"></i> {{ trans.menu.links.exit }}<i class="fa fa-circle"></i >
+              </a>
+            </li>
+          </ul>
+          <div class="sidebar-copyright">
+            Discove nice
+          </div>
+          <div class="center-socials">
+            <a href="#" class="facebook-color facebook-social"
+              ><i class="fa fa-facebook"></i
+            ></a>
+            <a href="#" class="google-color google-social"
+              ><i class="fa fa-google-plus"></i
+            ></a>
+            <a href="#" class="twitter-color twitter-social"
+              ><i class="fa fa-twitter"></i
+            ></a>
+          </div>
         </div>
-
-
-</span>
-
-
-      <div id="page">
-
       </div>
 
+      <!-- Page Content-->
+      <div id="content" class="snap-content">
+        <div class="header homepage-header">
+          <a href="#" class="sidebar-deploy"> <i class="fa fa-navicon"></i></a>
+
+          <a href="contact.html" class="contact-deploy"
+            ><i class="fa fa-envelope-o"></i
+          ></a>
+        </div>
+
+        <div class="content" id="page"></div>
+      </div>
     </div>
   </body>
 
   <script>
-      // loader code
-      $("#page").load(`views/loader.html`);
-  
+    // loader code
+    $("#page").load(`views/loader.html`);
   </script>
 
   <script type="text/javascript" src="cordova.js"></script>
@@ -176,29 +192,21 @@ let app = {};
   <script type="text/javascript" src="js/nav.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
   <script type="text/javascript" src="js/menu.js"></script>
-  
- <script>
 
-var menuInFunction = null;
-function makeMenu()
-{
+  <script>
+    var menuInFunction = null;
+    function makeMenu() {
+      if (menuInFunction != null) menuInFunction.$forceUpdate();
+      else app.menu();
+    }
+    var snapper = document.getElementsByClassName(".snap-content");
 
-
-   if(menuInFunction != null){
-       menuInFunction.$forceUpdate();
-   }else{
-  
-      app.menu();
-   }
-    
-  
- 
-}
-
-  
-
-
-
-</script>
-
+    $(".sidebar-deploy").click(function() {
+      makeMenu();
+      $(".snap-content").attr(
+        "style",
+        "transform: translate3d(260px, 0px, 0px);"
+      );
+    });
+  </script>
 </html>

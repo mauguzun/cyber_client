@@ -1,13 +1,9 @@
 #main_menu{
     position: fixed;
     z-index: 777;
-    right: 5px;
-    top:5px;
-    color: white;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    background: #c90090;
+    right: 15px;
+    top:15px;
+  
 }
 
 #menu_list{

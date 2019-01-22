@@ -1,4 +1,4 @@
-<div id="map" style="border:1px solid red; height:100vh;">
+<div id="map" style="height:100vh;">
   <div class="google-map-address">
     <h4 v-on:click="openAuto('start')">
       <span> {{ start }} </span>
@@ -7,16 +7,16 @@
       <span> {{ stop }} </span>
     </h4>
 
-    <div class="alert text-light bg-dark">
-      <a
-        href="#"
-        class="close"
-        data-dismiss="alert"
-        aria-label="close"
-        title="close"
-        >×</a
-      >
-      <strong>{{ trans.map.texts.blocks.warning }}</strong>
+    <br />
+    <br />
+
+    <div
+      v-show="showinfo"
+      style="cursor:pointet;"
+      class="text-highlight highlight-dark"
+      @click="showinfo = false"
+    >
+      {{ trans.map.texts.blocks.warning }}
     </div>
   </div>
 
@@ -26,93 +26,116 @@
     v-if="MapOrder != null && MapOrder.price != null "
   >
     <div class="card" style="width: 100%;height: 100vh;">
-      <div class="card-body">
-        <h5 class="card-title">{{ trans.order.input.attr.value.order }}</h5>
+      <!--Order card-->
 
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <span class="badge badge-secondary">{{
-              trans.order.texts.title.start
-            }}</span
-            >{{ MapOrder.start }}
-          </li>
-          <li class="list-group-item">
-            <span class="badge badge-secondary">{{
-              trans.order.texts.title.stop
-            }}</span
-            >{{ MapOrder.stop }}
-          </li>
-          <li class="list-group-item">
-            <span class="badge badge-secondary">{{
-              trans.order.texts.title.price
-            }}</span
-            >{{ MapOrder.price }} EUR
-          </li>
-          <li class="list-group-item">
-            <span class="badge badge-secondary">{{
-              trans.order.texts.title.period
-            }}</span
-            >{{ (MapOrder.duration / 60).toFixed(2) }} <strong>min</strong>
-          </li>
-          <li class="list-group-item">
-            <span class="badge badge-secondary">{{
-              trans.order.texts.title.await
-            }}</span
-            >{{ MapOrder.driver_await }}
-          </li>
-          <li class="list-group-item">
-            <span class="badge badge-secondary">
-              {{ trans.order.texts.title.distance }}</span
-            >{{ (MapOrder.distance / 1000).toFixed(2) }} <strong>km</strong>
-          </li>
-        </ul>
-        <a href="#" @click="MakeOrder()" class="btn btn-primary">
-          {{ trans.order.input.attr.value.order }}</a
-        >
+     
+      
+      <h1 style="display:block;padding-top:35px; text-align:center;">
+          {{ trans.order.input.attr.value.order }}
+          <i style="cursor:pointer;" @click="MapOrder.price = null" class="fa fa-times"></i>
+        </h1>
+      <div class="timeline">
+        <div class="timeline-decoration" style="height:96%;"></div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+          </div>
+          <div class="timeline-text no-bottom">
+            <h3 class="title">{{ trans.order.texts.title.start }}</h3>
+            <p>{{ MapOrder.start }}</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+          </div>
+          <div class="timeline-text no-bottom">
+            <h3 class="title">{{ trans.order.texts.title.stop }}</h3>
+            <p>{{ MapOrder.stop }}</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon"><i class="fas fa-euro-sign"></i></div>
+          <div class="timeline-text no-bottom">
+            <h3 class="title">{{ trans.order.texts.title.price }}</h3>
 
-        <p class="card-text">{{ trans.order.texts.block.important }}</p>
-        <br />
-        <a
-          @click="MapOrder = null "
-          class="close"
-          data-dismiss="alert"
-          aria-label="close"
-          title="close"
-          >×</a
-        >
+            <p>{{ MapOrder.price }} <strong>EUR</strong></p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon"><i class="far fa-clock"></i></div>
+          <div class="timeline-text no-bottom">
+            <h3 class="title">{{ trans.order.texts.title.period }}</h3>
+            <p>
+              {{ (MapOrder.duration / 60).toFixed(2) }} <strong>min</strong>
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon"><i class="fas fa-spinner"></i></div>
+          <div class="timeline-text no-bottom no-bottom">
+            <h3 class="title">{{ MapOrder.driver_await }}</h3>
+            <p>13</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <i class="fa fa-road" aria-hidden="true"></i>
+          </div>
+          <div class="timeline-text no-bottom ">
+            <h3 class="title">{{ (MapOrder.distance / 1000).toFixed(2) }}</h3>
+            <p>13 <strong>Km </strong></p>
+          </div>
+        </div>
       </div>
+
+      <p>
+      <a href="#" @click="MakeOrder()" class="button button-orange full-button">
+        <i class="fas fa-check"></i>{{ trans.order.input.attr.value.order }}</a
+      ></p>
+
+   
+     
+      <span
+        class="text-highlight highlight-dark"
+        style="padding:5px; text-align: center; display:block;"
+      >
+        {{ trans.order.texts.block.important }}
+      </span>
+      <!--Order card-->
     </div>
   </div>
   <!--Order card-->
   <div v-show="editValue" class="google-map-complete">
+    <br />
+    <br />
+    <br />
     <i class="fa fa-times" @click="editValue = null " aria-hidden="true"></i>
 
-    <div class="form-field">
-      <input
-        type="search"
-        v-model="editValue"
-        id="autoAddress"
-        class="form-control"
-      />
-    </div>
+    <input
+      type="search"
+      v-model="editValue"
+      id="autoAddress"
+      class="login-username"
+    />
   </div>
 
   <div class="google-map-order" v-show="points.stop">
-    <button
-      type="button"
-      @click="GetDirections()"
-      class="btn btn-danger btn-lg btn-block"
-    >
-      {{ buttonInfo }}
-    </button>
+    <p>
+      <a
+        href="#"
+        @click="GetDirections()"
+        class="button button-orange full-button"
+      >
+        <i class="fa fa-question"></i> {{ buttonInfo }}</a
+      >
+    </p>
   </div>
 
-  <div id="gmap" style="position:relative;height:100vh"></div>
+  <div id="gmap" style="position:relative!important;height:100vh"></div>
 </div>
 <script>
-
-  
-  app.pages.map  = new Vue({
+  app.pages.map = new Vue({
     el: "#map",
     data: {
       trans: trans,
@@ -129,7 +152,8 @@
       duration: null,
       polyline: null,
       edit: null,
-      editValue : null,
+      showinfo: true,
+      editValue: null,
       start: trans.map.input.attr.placeholder.start,
       stop: trans.map.input.attr.placeholder.stop
     },
@@ -204,15 +228,12 @@
         });
       },
       MakeOrder() {
-        
         ManageOrder.OrderAssing(this.MapOrder);
         ManageOrder.SendOnServer();
         ManageOrder.Timer();
-        Nav.Set("page|already_have_order")
+        Nav.Set("page|already_have_order");
       },
       SetupAuto(edit) {
-       
-        alert(edit)
         var autocomplete = new google.maps.places.Autocomplete(
           document.getElementById("autoAddress")
         );
@@ -285,8 +306,7 @@
       },
 
       GetDirections() {
-
-        if(!ManageOrder.Finished()){
+        if (!ManageOrder.Finished()) {
           ManageOrder.RedirectByStatus();
         }
         var self = this;
@@ -375,29 +395,39 @@
     width: 100%;
     z-index: 99;
     padding: 10px;
+    margin-top: 10%;
   }
   .google-map-address h4 {
     cursor: pointer;
-    font-size: 20px;
-    text-shadow: 1px 1px 5px #fff;
+    font-size: 17px;
+    font-family: "Roboto", sans-serif;
+    text-shadow: 1px 2px 2px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    margin-bottom: 10px;
+    color: #000;
   }
   .google-map-complete {
     position: absolute;
     width: 100%;
     z-index: 199;
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.99);
     height: 100vh;
   }
 
   .google-map-order {
-    position: absolute;
+    position: fixed;
     width: 100%;
     z-index: 288;
-    padding: 1px;
-    bottom: 5px;
+    padding: 10px;
+    bottom: 20px;
   }
   .over {
     z-index: 400 !important;
+  }
+  #autoAddress {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
   }
 </style>

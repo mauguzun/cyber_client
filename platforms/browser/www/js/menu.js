@@ -4,7 +4,7 @@ app.menu = function() {
   
 
   menuInFunction = new Vue({
-    el: "#menu",
+    el: ".snap-drawers",
     data: {
       trans: trans,
       Account: Account,
@@ -21,6 +21,11 @@ app.menu = function() {
       change(event) {
         Nav.Set(event.target.getAttribute("data-link"));
         return false;
+      },
+      close_menu(){
+        
+          $('.snap-content').removeAttr("style") ;
+    
       }
     }
   });

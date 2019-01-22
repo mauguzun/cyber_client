@@ -1,76 +1,62 @@
+<div class="signup-page bg2" id="confirm">
+  <div class="signup-page-overlay"></div>
+  <div class="signup-page-wrapper">
+    <a href="#" class="signup-logo"></a>
+    <p>{{ trans.confirm_code.texts.blocks.extra }}</p>
+    <p v-if="error">{{ error }}</p>
+    <form id="form_code" v-on:submit.prevent="send">
+      <input
+        type="text"
+        v-model="code"
+        class="signup-email"
+        :placeholder="trans.confirm_code.input.attr.placeholder.code"
+        maxlength="5"
+      />
 
-</script>
-   <div class="card" id="confirm" >
-    <div class="card-body">
+      <div class="clear"></div>
+      <div class="or-button"><em></em></div>
 
-
-        <form id="form_code" v-on:submit.prevent="send">
-            <div class="input-group mb-3">
-
-                <input type="text" v-model="code" class="form-control" :placeholder="trans.confirm_code.input.attr.placeholder.code" maxlength="5" />
-            </div>
-
-            <div class="input-group mb-3">
-                <input type="submit" class="btn btn-raised btn-warning" data-toggle="submit" :value="trans.confirm_code.input.attr.value.register" />
-            </div>
-
-            <div class="input-group mb-3">
-                <a>{{trans.confirm_code.texts.blocks.extra}}</a>
-            </div>
-        </form>
-
-
-        <div  v-if="error"   class="alert alert-danger" role="alert">
-            {{error}} 
-        </div>
-    
-    </div>
+      <div class="signup-socials">
+        <button class="button button-green full-button">
+          {{ trans.confirm_code.input.attr.value.register }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
-
+<!----->
 
 <script>
+  app.pages.confirm = new Vue({
+    el: "#confirm",
+    data: {
+      trans: trans,
+      code: "",
+      error: null
+    },
+    methods: {
+      send: function() {
+        this.error = null;
+        Account.code = this.code;
+        ManageAccount.ServerLogined().then(e => {
+          if (e.action === true) {
+            ManageAccount.Save();
 
-
-  
-
-   app.pages.confirm =  new Vue({
-        el: "#confirm",
-        data: {
-            trans: trans,
-            code: '',
-            error : null,
-        },
-        methods: {
-            send: function () {
-                  
-                
-               
-                this.error = null;
-                Account.code = this.code;
-                ManageAccount.ServerLogined()
-                    .then(e => {
-                        if (e.action === true) { 
-                            ManageAccount.Save();
-                            
-                            if (app.isPhone){
-                                window.plugins.PushbotsPlugin.setAlias(Account.phone);
-                             }
-                               
-                                if(e.user.order != null){
-                                     ManageOrder.LoadOrderByID(e.user.order);
-                                }else{
-                                    Nav.Set("map");
-                                }
-                        }
-                        else {
-                            this.error = e.message;
-                        }
-                    })
+            if (app.isPhone) {
+              window.plugins.PushbotsPlugin.setAlias(Account.phone);
             }
-        }
-    });
 
-    
-
+            if (e.user.order != null) {
+              ManageOrder.LoadOrderByID(e.user.order);
+            } else {
+              Nav.Set("map");
+            }
+          } else {
+            this.error = e.message;
+          }
+        });
+      }
+    }
+  });
 </script>

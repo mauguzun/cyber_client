@@ -1,71 +1,40 @@
-<div  id="vue-login" >
-  <div
-    class="alert alert-primary marker_info"
-    id="marker_info"
-    v-on:click="greet"
-    role="alert"
-    style=" position: relative; top: 20px;"
-  >
-    {{ trans.login.texts.text.start }}
-  </div>
-
-  <div class="card-body">
-    <div
-      id="form_login_error"
-      v-if="error"
-      class="alert alert-danger"
-      role="alert"
-    >
-      {{ error }}
-    </div>
-
+<div class="login-page bg1" id="vue-login">
+  <div class="login-page-overlay"></div>
+  <div class="login-page-wrapper">
+    <a href="#" class="login-logo"></a>
+    <p> {{ trans.login.texts.text.start }}.</p>
+    <p>  {{ error }}</p>
     <form id="form_login" method="POST" v-on:submit.prevent="send">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon1"> <b> + </b> </span>
-        </div>
-        <input
-          type="tel"
-          v-model="phone"
-          class="form-control"
-          id="phone"
-          name="phone"
-          :placeholder="this.trans.login.input.attr.placeholder.phone"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="search"
-          v-model="name"
-          class="form-control"
-          id="name"
-          name="name"
-          :placeholder="this.trans.login.input.attr.placeholder.name"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="search"
-          v-model="email"
-          class="form-control"
-          id="email"
-          name="email"
-          :placeholder="this.trans.login.input.attr.placeholder.email"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="submit"
-          class="btn btn-raised btn-warning"
-          data-toggle="submit"
-          :value="this.trans.login.input.attr.value.register"
-        />
+      <input
+        type="tel"
+        v-model="phone"
+        :placeholder="this.trans.login.input.attr.placeholder.phone"
+        class="login-username"
+        
+      />
+      <input
+        type="text"
+        v-model="name"
+        name="name"
+        :placeholder="this.trans.login.input.attr.placeholder.name"
+        class="login-username"
+      />
+      <input
+        type="email"
+        v-model="email"
+        class="login-username"
+        :placeholder="this.trans.login.input.attr.placeholder.email"
+      />
+      <div class="one">
+        <button class="button button-green">
+          {{ this.trans.login.input.attr.value.register }}
+        </button>
       </div>
     </form>
+    <div class="clear"></div>
+
   </div>
 </div>
-
-
 
 <script>
   app.pages.login = new Vue({
@@ -80,11 +49,7 @@
     methods: {
       send: function() {
         let send = { phone: this.phone, email: this.email, name: this.name };
-        document.getElementById("marker_info").style.display = "none";
-        if (send.phone.trim() == "") {
-          this.error = this.trans.login.texts.errors.required;
-          return;
-        }
+       
 
         ManageAccount.Register(send).then(e => {
           if (e.action === true) {

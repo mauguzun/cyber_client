@@ -28,7 +28,7 @@ document.addEventListener("deviceready", function() {
         Nav.Set("login");
       });
     } else {
-      Nav.Set("login");
+        Nav.Set("login");
     }
   });
 });
