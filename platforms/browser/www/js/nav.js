@@ -4,6 +4,8 @@ const Nav = {
   Set(newPage) {
     //todo check if page exist !!!
 
+    $(".full_size").fadeOut();
+
     if (newPage != null && this.current !== newPage) {
       if (newPage.indexOf("|") > 0) {
         let page = newPage.split("|")[1];
