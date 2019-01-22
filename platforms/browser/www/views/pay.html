@@ -1,32 +1,76 @@
-<div class="card" id="pay">
-    <div class="card-body align-content-center">
+<div class="login-page bg1" id="pay">
+        <div class="login-page-overlay"></div>
+        <div class="login-page-wrapper">
+          <a href="#" class="login-logo"></a>
 
+         
+          <p :display="infoText != null"> {{ infoText }}</p>
+       
+          <form id="form_login" method="POST" v-on:submit.prevent="pay">
+
+            <input
+              type="tel"
+              v-model="number"
+              :placeholder="this.trans.pay.input.attr.placeholder.code"
+              class="login-username"
+              
+            />
+
+            <input
+              type="number"
+              v-model="expYear"
+              :placeholder="this.trans.pay.input.attr.placeholder.expYear"
+              min="2019"
+              max="2099"
+              class="login-username"
+              
+            />
+
+            <input
+            type="tel"
+            v-model="expMonth"  
+            :placeholder="this.trans.pay.input.attr.placeholder.expMonth"
+            maxlength="2"
+            class="login-username"
+            
+          />
+            <input
+            type="tel"
+            v-model="cvc"  :placeholder="this.trans.pay.input.attr.placeholder.cvc"
+            maxlength="3"
+            minlength="3"
+            class="login-username"
+            
+          />
+
+         
+        
+           
+              <button class="  button button-green">
+                <i class="fa fa-question"></i>     {{this.trans.pay.button.text.pay}}
+              </button>
+      
+          </form>
+          <div class="clear"></div>
+      
+        </div>
+      </div>
+      
      
 
-            <div  :display="infoText != null" class="alert">{{ infoText }}</div>
-      
-           
-            <div class="input-group mb-3">
-                <input  type="search" v-model="number" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.code">
-            </div>
-          
-            <div class="input-group mb-3">
-                <input  value="2019"  type="search" v-model="expYear" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.expYear">
-            </div>
-            <div class="input-group mb-3">
-                <input value="03" type="search" v-model="expMonth" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.expMonth">
-            </div>
-            <div class="input-group mb-3">
-                <input type="search" v-model="cvc" class="form-control"  :placeholder="this.trans.pay.input.attr.placeholder.cvc">
-            </div>
 
-            <button type="submit"  class="btn btn-danger"  @click="pay()" >{{this.trans.pay.button.text.pay}}</button>
-      
 
-    </div>
-    
-</div>
-</div>
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
     

@@ -1,16 +1,33 @@
-<div class="card" style="padding-top:20vh;">
-    <div class="card-body" id="lang">
-        <h2 class="card-title">{{trans.lang.texts.title.change}}</h2>
-        <select v-model="selected" class="form-control" @change="select">
-            <option value="" disabled selected>{{trans.lang.texts.title.change}}</option>
-            <option v-for="(value) in langs" :value="value.code">{{value.name}}</option>
-
-        </select>
-
-    </div>
-</div>
 
 
+<div class="login-page bg1" id="lang">
+        <div class="login-page-overlay"></div>
+        <div class="login-page-wrapper">
+          <a href="#" class="login-logo"></a>
+
+         
+          <h2 class="card-title">{{trans.lang.texts.title.change}}</h2>
+       
+          <form id="form_login" method="POST" v-on:submit.prevent="pay">
+
+               
+        <select v-model="selected" class="login-username" @change="select">
+                <option value="" disabled selected>{{trans.lang.texts.title.change}}</option>
+                <option v-for="(value) in langs" :value="value.code">{{value.name}}</option>
+    
+            </select>
+
+            
+        
+           
+      
+          </form>
+          <div class="clear"></div>
+      
+        </div>
+      </div>
+      
+     
 
 <script>
 

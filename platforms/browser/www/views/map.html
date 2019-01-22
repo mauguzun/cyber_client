@@ -74,8 +74,8 @@
         <div class="timeline-item">
           <div class="timeline-icon"><i class="fas fa-spinner"></i></div>
           <div class="timeline-text no-bottom no-bottom">
-            <h3 class="title">{{ MapOrder.driver_await }}</h3>
-            <p>13</p>
+            <h3 class="title">{{ trans.order.texts.title.await }}</h3>
+            <p>{{ MapOrder.driver_await }}</p>
           </div>
         </div>
         <div class="timeline-item">
@@ -83,18 +83,18 @@
             <i class="fa fa-road" aria-hidden="true"></i>
           </div>
           <div class="timeline-text no-bottom ">
-            <h3 class="title">{{ (MapOrder.distance / 1000).toFixed(2) }}</h3>
-            <p>13 <strong>Km </strong></p>
+            <h3 class="title">{{ trans.order.texts.title.distance }}</h3>
+            <p>{{ (MapOrder.distance / 1000).toFixed(2) }} <strong>Km </strong></p>
           </div>
         </div>
       </div>
 
-      <p>
+   
       <a href="#" @click="MakeOrder()" class="button button-orange full-button">
         <i class="fas fa-check"></i>{{ trans.order.input.attr.value.order }}</a
-      ></p>
+      >
 
-   
+   <br/>
      
       <span
         class="text-highlight highlight-dark"
@@ -107,11 +107,11 @@
   </div>
   <!--Order card-->
   <div v-show="editValue" class="google-map-complete">
-    <br />
-    <br />
-    <br />
-    <i class="fa fa-times" @click="editValue = null " aria-hidden="true"></i>
-
+ 
+    <h1 style="display:block;padding-top:35px; text-align:center;">
+     
+        <i style="cursor:pointer;" @click="editValue = null " class="fa fa-times"></i>
+      </h1>
     <input
       type="search"
       v-model="editValue"
@@ -121,7 +121,7 @@
   </div>
 
   <div class="google-map-order" v-show="points.stop">
-    <p>
+   
       <a
         href="#"
         @click="GetDirections()"
@@ -129,7 +129,7 @@
       >
         <i class="fa fa-question"></i> {{ buttonInfo }}</a
       >
-    </p>
+   
   </div>
 
   <div id="gmap" style="position:relative!important;height:100vh"></div>

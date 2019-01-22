@@ -4,13 +4,20 @@ const Nav = {
   Set(newPage) {
     //todo check if page exist !!!
 
+    $(".full_size").fadeOut();
+
     if (newPage != null && this.current !== newPage) {
       if (newPage.indexOf("|") > 0) {
         let page = newPage.split("|")[1];
 
         Api.PostData("code", { page_name: page }).then(e => {
-          document.getElementById("page").innerHTML = e.code;
+
+          $("#page").load(`views/about.html`,function() {
+            document.getElementById("error-page").innerHTML = e.code;
+          });
+          
         });
+        $('.snap-content').removeAttr("style") ;
         return;
       }
 
@@ -54,6 +61,7 @@ const Nav = {
     }
 
     $("#page").load(`views/${arg}.html`);
+    $('.snap-content').removeAttr("style") ;
   },
   ExitApp() {
     if (navigator.app) {

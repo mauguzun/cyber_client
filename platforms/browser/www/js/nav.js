@@ -15,8 +15,9 @@ const Nav = {
           $("#page").load(`views/about.html`,function() {
             document.getElementById("error-page").innerHTML = e.code;
           });
-         
+          
         });
+        $('.snap-content').removeAttr("style") ;
         return;
       }
 
@@ -60,6 +61,7 @@ const Nav = {
     }
 
     $("#page").load(`views/${arg}.html`);
+    $('.snap-content').removeAttr("style") ;
   },
   ExitApp() {
     if (navigator.app) {

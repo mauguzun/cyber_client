@@ -1,4 +1,4 @@
-<div class="card-body">
+<div class="full_size">
 
     <div class="sk-cube-grid">
         <div class="sk-cube sk-cube1"></div>
@@ -10,9 +10,7 @@
         <div class="sk-cube sk-cube7"></div>
         <div class="sk-cube sk-cube8"></div>
         <div class="sk-cube sk-cube9"></div>
-         <br>
-    
-    
+         
     </div>
 
    
@@ -83,6 +81,14 @@
     .sk-cube-grid .sk-cube9 {
         -webkit-animation-delay: 0.2s;
         animation-delay: 0.2s;
+    }
+    .full_size{
+        position: fixed;
+        top:0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index: 9999;
     }
 
     @-webkit-keyframes sk-cubeGridScaleDelay {

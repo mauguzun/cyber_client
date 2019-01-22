@@ -6,9 +6,12 @@ app.menu = null;
 document.addEventListener("deviceready", function() {
   Translate.LoadLang().then(result => {
     // yea ?
-
+    
+    
     trans = result;
     ManageAccount.Load();
+
+
     
     if (app.isPhone) {
       runBackground(cordova);
