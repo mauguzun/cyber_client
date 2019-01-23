@@ -314,10 +314,11 @@ body{
 }
 
 .sidebar-logo{
-    background-image:url(../images/sidebar-logo.png);
-    background-size:133px 157px;
+    /* background-image:url(../images/sidebar-logo.png);
+    background-size:133px 157px; 
     width:133px;
-    height:157px;
+    height:157px;*/
+    height:37px;
     margin-top:30px;
     margin-bottom:30px;
     margin-left:auto;

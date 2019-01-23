@@ -120,7 +120,7 @@ div, a, p, img, blockquote, form, fieldset, textarea, input, label, iframe, code
 p {
 	line-height: 30px;
 	margin-bottom: 30px;
-	font-size:13px;
+	font-size:14px;
 	letter-spacing:0px;
 }
 
@@ -2958,6 +2958,10 @@ table tr:hover td{
   width: auto;
   height: auto;
 }
+.move-me{
+	transform: translate3d(80%, 0px, 0px);
+	
+}
 
 .snap-drawer {
   position: absolute;
@@ -2965,7 +2969,7 @@ table tr:hover td{
   right: auto;
   bottom: 0;
   left: auto;
-  width: 260px;
+  width: 80%;
   height: auto;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -3081,7 +3085,8 @@ table tr:hover td{
     line-height:100%;
     border:solid 1px #cacaca; 
     color:#666666;
-    border-radius:0px;
+	border-radius:0px;
+	font-size:16px;
 }
 
 .login-password{
@@ -3100,7 +3105,7 @@ table tr:hover td{
 
 .login-logo{
     background-image:url(../images/logo-light.png);
-    width:150px;
+    width:200px;
     height:30px;
     background-size:150px 30px;
     margin-left:auto;
@@ -3189,7 +3194,11 @@ table tr:hover td{
     line-height:100%;
     border:solid 1px #cacaca; 
     color:#666666;
-    border-radius:0px;
+	border-radius:0px;
+	font-size:16px;
+}
+input,select,button{
+	font-size:16px !important;
 }
 
 .signup-password{
@@ -3296,7 +3305,7 @@ table tr:hover td{
 
 .coverpage-style-1 p{
     display:block;
-    width:260px;
+    width:30px;
     margin-left:auto;
     margin-right:auto;
     margin-top:40px;
@@ -3964,7 +3973,7 @@ table tr:hover td{
     text-align:center;
     padding-left:20px;
     padding-right:20px;
-    color:rgba(255,255,255,0.7);
+    color:rgba(255,255,255,0.99);
     padding-top:20px;
 }
 

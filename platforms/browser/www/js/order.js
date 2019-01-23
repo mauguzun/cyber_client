@@ -18,6 +18,7 @@ const Order = {
 const ManageOrder = {
   idnexname: "order",
   timer: null,
+  previus: null,
 
   CheckOrderStatus() {
     if (this.Finished()) {
@@ -56,13 +57,15 @@ const ManageOrder = {
         break;
       case 2:
         this.Timer();
-        Nav.Set("page|driver_arrived");
-
+        if (Nav.current != "pay") {
+          Nav.Set("page|driver_arrived");
+        }
         break;
       case 3:
         this.Timer();
-        Nav.Set("page|trip");
-
+        if (Nav.current != "pay") {
+          Nav.Set("page|trip");
+        }
         break;
       case 1:
         this.Timer();
@@ -70,8 +73,10 @@ const ManageOrder = {
 
         break;
       case 6:
-        Nav.Set("pay"); // cam order new
-        this.ClearTimer();
+        if (Nav.current != "pay") {
+          Nav.Set("pay"); // cam order new
+          this.ClearTimer();
+        }
         break;
       case 5:
         this.ClearTimer(); // cam order new
@@ -98,7 +103,7 @@ const ManageOrder = {
     let self = this;
     this.timer = setInterval(function() {
       self.CheckOrderStatus();
-    }, 1000  *5 );
+    }, 1000 * 5);
   },
 
   // to create order !
@@ -159,7 +164,7 @@ const ManageOrder = {
 
   LoadOrderByID(id) {
     Api.PostData("orderbyid", { id: id }).then(e => {
-      console.log(e)
+      console.log(e);
       if (e.action === true) {
         if (e.data.status_id != 7) {
           this.OrderAssing(e.data);
@@ -187,6 +192,21 @@ const ManageOrder = {
       return false;
     }
     return true;
+  },
+
+  CanShowPay() {
+    if (!this.Finished()) {
+      alert(Order.status_id)
+      //2,3,6
+      if (
+        (Order.status_id == 2) |
+        (Order.status_id == 3) |
+        (Order.status_id == 6)
+      )
+        return true;
+      else return false;
+    }
+    return false;
   },
 
   ClearOrderData() {

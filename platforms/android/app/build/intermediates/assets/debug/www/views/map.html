@@ -6,19 +6,16 @@
     <h4 v-on:click="openAuto('stop')">
       <span> {{ stop }} </span>
     </h4>
-
-    <br />
-    <br />
-
-    <div
-      v-show="showinfo"
-      style="cursor:pointet;"
-      class="text-highlight highlight-dark"
-      @click="showinfo = false"
-    >
-      {{ trans.map.texts.blocks.warning }}
-    </div>
   </div>
+  
+  <div
+  v-show="showinfo"
+  style="cursor:pointet;"
+  class="text-highlight highlight-dark info-bottom"
+  @click="showinfo = false"
+>
+  {{ trans.map.texts.blocks.warning }}
+</div>
 
   <!--Order card-->
   <div
@@ -173,12 +170,12 @@
           map: this.map,
           position: this.points.start,
           draggable: true,
-          icon: "img/icon.png"
+          icon: "images/icon.png"
         });
         this.marker.stop = new google.maps.Marker({
           map: this.map,
           draggable: true,
-          icon: "img/icon.png"
+          icon: "images/icon.png"
         });
 
         this.LocationByMarker("start");
@@ -220,7 +217,7 @@
               let driver = new google.maps.Marker({
                 map: this.map,
                 position: element,
-                icon: "img/car.png"
+                icon: "images/car.png"
               });
               this.drivers.push(driver);
             });
@@ -429,5 +426,11 @@
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
+  }
+  .info-bottom{
+     position: fixed;
+     bottom: 20px;
+     margin:30px;
+     z-index: 188;
   }
 </style>

@@ -7,6 +7,7 @@ document.addEventListener("deviceready", function() {
   Translate.LoadLang().then(result => {
     // yea ?
     
+
     
     trans = result;
     ManageAccount.Load();

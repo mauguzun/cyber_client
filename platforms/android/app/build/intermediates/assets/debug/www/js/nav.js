@@ -3,7 +3,8 @@ const Nav = {
 
   Set(newPage) {
     //todo check if page exist !!!
-
+    $(".snap-content").removeClass("move-me");
+    
     $(".full_size").fadeOut();
 
     if (newPage != null && this.current !== newPage) {
@@ -17,7 +18,6 @@ const Nav = {
           });
           
         });
-        $('.snap-content').removeAttr("style") ;
         return;
       }
 
@@ -61,7 +61,6 @@ const Nav = {
     }
 
     $("#page").load(`views/${arg}.html`);
-    $('.snap-content').removeAttr("style") ;
   },
   ExitApp() {
     if (navigator.app) {

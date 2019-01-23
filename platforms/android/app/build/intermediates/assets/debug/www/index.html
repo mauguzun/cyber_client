@@ -78,14 +78,14 @@
     <title></title>
   </head>
 
-  <body class="shadow">
+  <body class="">
     <div class="all-elements">
       <div class="snap-drawers">
         <!-- Left Sidebar -->
         <div class="snap-drawer snap-drawer-left">
           <div class="sidebar-header">
             <a class="sidebar-close" @click="close_menu"
-              ><i class="fa fa-times"></i
+              ><i style="font-size:24px !important;" class="fa fa-times"></i
             ></a>
           </div>
           
@@ -94,9 +94,10 @@
           <ul class="sidebar-menu">
            
 
-            <li class="sidebar-brand">
-              <a href="#" style="color:black;">
-                {{ userName() }} , {{ trans.menu.text.greeting }}
+            <li class="active-menu" >
+              <a href="#" >
+                  <i class="fas fa-user"></i>  {{ userName() }} , {{ trans.menu.text.greeting }}<i class="fa fa-circle"></i
+                    >
               </a>
             </li>
 
@@ -147,30 +148,20 @@
             </li>
           </ul>
           <div class="sidebar-copyright">
-            Discove nice
+           2019
           </div>
-          <div class="center-socials">
-            <a href="#" class="facebook-color facebook-social"
-              ><i class="fa fa-facebook"></i
-            ></a>
-            <a href="#" class="google-color google-social"
-              ><i class="fa fa-google-plus"></i
-            ></a>
-            <a href="#" class="twitter-color twitter-social"
-              ><i class="fa fa-twitter"></i
-            ></a>
-          </div>
+         
         </div>
       </div>
 
       <!-- Page Content-->
       <div id="content" class="snap-content">
         <div class="header homepage-header">
-          <a href="#" class="sidebar-deploy"> <i class="fa fa-navicon"></i></a>
+          <a href="#" class="sidebar-deploy"> <i  style=" text-shadow: 1px 1px #999;"  class="fa fa-navicon"></i></a>
 
-          <a href="contact.html" class="contact-deploy"
+          <!-- <a href="contact.html" class="contact-deploy"
             ><i class="fa fa-envelope-o"></i
-          ></a>
+          ></a> -->
         </div>
 
         <div class="content" id="page"></div>
@@ -203,10 +194,7 @@
 
     $(".sidebar-deploy").click(function() {
       makeMenu();
-      $(".snap-content").attr(
-        "style",
-        "transform: translate3d(260px, 0px, 0px);"
-      );
+      $(".snap-content").toggleClass("move-me");
     });
   </script>
 </html>
