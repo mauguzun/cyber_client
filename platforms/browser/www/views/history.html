@@ -1,77 +1,67 @@
-<div class="card" id="history_div">
-    <div class="card-body">
+<div class="content" id="history_div" >
+  <div class="container">
+    <h1 style="text-weight:lighter !important;">{{ trans.text.title.page }}</h1>
+    <p v-show="dataitems === null">{{ trans.text.title.not_have_history }}</p>
+  </div>
 
-        <h3>{{trans.text.title.page}}</h3>
-
-
+  <template v-for="(item, index) in dataitems">
+    <div class="container no-bottom">
+      <h4>{{ item.start_address }}</h4>
+      <h4>{{ item.stop_address }}</h4>
+      <p>{{ item.created }}</p>
+      <strong>{{ item.price }} EUR</strong>
     </div>
-    <div class="body">
-        <center><h4 v-show="dataitems === null">{{trans.text.title.not_have_history}}</h4></center>
+    <div class="decoration"></div>
+  </template>
 
-        <template v-for="(item, index) in dataitems">
-            <div class="card card-body">
-                <h6>{{item.start_address}}</h6>
-                <h6>{{item.stop_address}}</h6>
-                <p>{{item.created}}</p>
-                <strong>{{item.price}}</strong>
-            </div>
-            <br />
-        </template>
-
-
-
-    </div>
-    <button class="btn btn-raised btn-warning" @click="update" >{{trans.text.title.page}} 
-        
-        {{perTime}}  </button>
-
-
-
+  <a
+    href="#"
+    @click="update"
+    class="button center-button button-blue full-bottom detected-button"
+    >{{ trans.text.title.page }} {{ perTime }}</a
+  >
 </div>
 
 <script>
-    app.pages.history =  new Vue({
-        el: '#history_div',
-        data: {
-            trans: trans.history,
-            perTime: 5,
-            startFrom: 0,
-            dataitems: null
-        },
-        methods: {
-            update() {
+  app.pages.history = new Vue({
+    el: "#history_div",
+    data: {
+      trans: trans.history,
+      perTime: 5,
+      startFrom: 0,
+      dataitems: null
+    },
+    methods: {
+      update() {
+        Api.PostData("history", {
+          perTime: this.perTime,
+          startFrom: this.startFrom
+        }).then(e => {
+          if (e.action === true) {
+            console.log(Object.keys(e.data).length);
+            if (Object.keys(e.data).length > 0) {
+              this.dataitems = e.data;
 
-                Api.PostData("history", {
-                    perTime: this.perTime,
-                    startFrom: this.startFrom
-                })
-                    .then((e) => {
-                        if (e.action === true) {
-                            console.log(Object.keys(e.data).length)
-                            if (Object.keys(e.data).length > 0) {
-                                this.dataitems = e.data;
-
-                                if (Object.keys(e.data).length == this.perTime)
-                                    this.startFrom += this.perTime;
-                                else
-                                    this.startFrom = 0;
-
-                            } else {
-                                this.startFrom = 0;
-                            }
-
-                        }
-                    })
-
-
+              if (Object.keys(e.data).length == this.perTime)
+                this.startFrom += this.perTime;
+              else this.startFrom = 0;
+            } else {
+              this.startFrom = 0;
             }
+          }
+        });
+      }
+    },
 
-
-        },
-
-        created() {
-            this.update()
-        }
-    })
-
+    created() {
+      this.update();
+    }
+  });
 </script>
+
+
+<style>
+#history_div{
+    padding:50px 30px;
+}
+</style>

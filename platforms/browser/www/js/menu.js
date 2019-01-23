@@ -24,7 +24,7 @@ app.menu = function() {
       },
       close_menu(){
         
-          $('.snap-content').removeAttr("style") ;
+        $(".snap-content").toggleClass("move-me");
     
       }
     }

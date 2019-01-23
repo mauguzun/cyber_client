@@ -1,136 +1,102 @@
 <div class="login-page bg1" id="pay">
-        <div class="login-page-overlay"></div>
-        <div class="login-page-wrapper">
-          <a href="#" class="login-logo"></a>
+  <div class="login-page-overlay"></div>
+  <div class="login-page-wrapper">
+    <span style="text-align:center">
+      <img src="images/logo-light.png" width="280px" />
+    </span>
 
-         
-          <p :display="infoText != null"> {{ infoText }}</p>
-       
-          <form id="form_login" method="POST" v-on:submit.prevent="pay">
+    <p :display="infoText != null">{{ infoText }}</p>
 
-            <input
-              type="tel"
-              v-model="number"
-              :placeholder="this.trans.pay.input.attr.placeholder.code"
-              class="login-username"
-              
-            />
+    <form id="form_login" method="POST" v-on:submit.prevent="pay">
+      <input
+        type="tel"
+        v-model="number"
+        :placeholder="this.trans.pay.input.attr.placeholder.code"
+        class="login-username"
+      />
 
-            <input
-              type="number"
-              v-model="expYear"
-              :placeholder="this.trans.pay.input.attr.placeholder.expYear"
-              min="2019"
-              max="2099"
-              class="login-username"
-              
-            />
+      <input
+        type="number"
+        v-model="expYear"
+        :placeholder="this.trans.pay.input.attr.placeholder.expYear"
+        min="2019"
+        max="2099"
+        class="login-username"
+      />
 
-            <input
-            type="tel"
-            v-model="expMonth"  
-            :placeholder="this.trans.pay.input.attr.placeholder.expMonth"
-            maxlength="2"
-            class="login-username"
-            
-          />
-            <input
-            type="tel"
-            v-model="cvc"  :placeholder="this.trans.pay.input.attr.placeholder.cvc"
-            maxlength="3"
-            minlength="3"
-            class="login-username"
-            
-          />
+      <input
+        type="tel"
+        v-model="expMonth"
+        :placeholder="this.trans.pay.input.attr.placeholder.expMonth"
+        maxlength="2"
+        class="login-username"
+      />
+      <input
+        type="tel"
+        v-model="cvc"
+        :placeholder="this.trans.pay.input.attr.placeholder.cvc"
+        maxlength="3"
+        minlength="3"
+        class="login-username"
+      />
 
-         
-        
-           
-              <button class="  button button-green">
-                <i class="fa fa-question"></i>     {{this.trans.pay.button.text.pay}}
-              </button>
-      
-          </form>
-          <div class="clear"></div>
-      
-        </div>
-      </div>
-      
-     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <button class="  button button-green">
+        <i class="fa fa-question"></i> {{ this.trans.pay.button.text.pay }}
+      </button>
+    </form>
+    <div class="clear"></div>
+  </div>
+</div>
 
 <script>
-    
-     
-     app.pages.pay = new Vue({
-        el: "#pay",
-        data: {
-            trans: trans,
-            infoText:`${ Order.price} eur  ${ trans.pay.text.title.page} `,
-            number : '4242424242424242' ,
-            expMonth: 12 ,
-            expYear: 2020 ,
-            cvc: 123 ,  
+  app.pages.pay = new Vue({
+    el: "#pay",
+    data: {
+      trans: trans,
+      infoText: `${Order.price} eur  ${trans.pay.text.title.page} `,
+      number: "4242424242424242",
+      expMonth: 12,
+      expYear: 2020,
+      cvc: 123
+    },
+    methods: {
+      pay() {
+        const apiKey = "pk_test_DAoIqiQoOJa30co9TfpoYe6Y";
+        cordova.plugins.stripe.setPublishableKey(apiKey);
 
-        },
-        methods: {
-           pay (){
+        var card = {
+          number: this.number, // 16-digit credit card number
+          expMonth: this.expMonth, // expiry month
+          expYear: this.expYear, // expiry year
+          cvc: this.cvc
+        };
+        cordova.plugins.stripe.createCardToken(
+          card,
+          token => {
+            let token_id = token.id;
+            let res = Api.PostData("pay", {
+              token_id,
+              amount: Order.price,
+              id: Order.id
+            });
 
-            const apiKey = "pk_test_DAoIqiQoOJa30co9TfpoYe6Y";
-            cordova.plugins.stripe.setPublishableKey(apiKey);
-
-            var card = {
-                number: this.number, // 16-digit credit card number
-                expMonth: this.expMonth, // expiry month
-                expYear: this.expYear, // expiry year
-                cvc: this.cvc,  };
-                cordova.plugins.stripe.createCardToken(card,
-                token=>{
-                    
-                    let token_id =    token.id;
-                    let res =   Api.PostData('pay',{
-                        token_id ,
-                        amount:Order.price,
-                        id : Order.id
-                    });
-
-                  
-
-                    res.then(e=>{
-                        console.log(e)
-                        if (e.result == true){
-                            this.infoText = e.message;
-                            Order.status_id = 7;
-                            ManageOrder.Save();
-                            ManageOrder.RedirectByStatus();
-                         
-                        }else{
-                            this.infoText = e.message;
-                        }
-                    })          
-                },
-                error=>{
-                   
-                     this.infoText = error.message;
-
-                });
-           }
-        }
-    });
-
-   
-
+            res.then(e => {
+              console.log(e);
+              if (e.result == true) {
+                this.infoText = e.message;
+                Order.status_id = 7;
+                ManageOrder.Save();
+                ManageOrder.RedirectByStatus();
+              } else {
+                this.infoText = e.message;
+              }
+            });
+          },
+          error => {
+            this.infoText = error.message;
+          }
+        );
+      }
+    }
+  });
 </script>

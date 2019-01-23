@@ -1,7 +1,10 @@
 <div class="signup-page bg2" id="confirm">
   <div class="signup-page-overlay"></div>
   <div class="signup-page-wrapper">
-    <a href="#" class="signup-logo"></a>
+      <span style="text-align:center">
+          <img src="images/logo-light.png" width="280px"  />
+  
+      </span>
     <p>{{ trans.confirm_code.texts.blocks.extra }}</p>
     <p v-if="error">{{ error }}</p>
     <form id="form_code" v-on:submit.prevent="send">
