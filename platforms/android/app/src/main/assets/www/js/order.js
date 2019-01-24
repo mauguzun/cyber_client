@@ -196,7 +196,7 @@ const ManageOrder = {
 
   CanShowPay() {
     if (!this.Finished()) {
-      alert(Order.status_id)
+     
       //2,3,6
       if (
         (Order.status_id == 2) |
