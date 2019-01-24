@@ -94,9 +94,9 @@
           <ul class="sidebar-menu">
            
 
-            <li class="active-menu" >
+            <li class="active-menu"  >
               <a href="#" >
-                  <i class="fas fa-user"></i>  {{ userName() }} , {{ trans.menu.text.greeting }}<i class="fa fa-circle"></i
+                  <i class="fas fa-user"></i>  {{ userName() }}  {{ trans.menu.text.greeting }}<i class="fa fa-circle"></i
                     >
               </a>
             </li>
@@ -130,7 +130,7 @@
                 <i class="fas fa-history"></i> {{ trans.menu.links.history }}<i class="fa fa-circle"></i >
                 </a>
             </li>
-            <li  class="active-menu" v-show="!ManageOrder.Finished()">
+            <li  class="active-menu" v-show="ManageOrder.CanShowPay()">
               <a href="#" @click.prevent="change" data-link="pay">
                 <i class="fas fa-language"></i> {{ trans.menu.links.pay }}<i class="fa fa-circle"></i >
               </a>
@@ -157,7 +157,8 @@
       <!-- Page Content-->
       <div id="content" class="snap-content">
         <div class="header homepage-header">
-          <a href="#" class="sidebar-deploy"> <i  style=" text-shadow: 1px 1px #999;"  class="fa fa-navicon"></i></a>
+          <a href="#" class="sidebar-deploy">
+             <i  style=" text-shadow: 1px 1px #999;"  class="fa fa-navicon"></i></a>
 
           <!-- <a href="contact.html" class="contact-deploy"
             ><i class="fa fa-envelope-o"></i

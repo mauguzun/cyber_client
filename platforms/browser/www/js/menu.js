@@ -14,9 +14,9 @@ app.menu = function() {
     },
     methods: {
       userName() {
-        return Account.name == null
-          ? this.trans.menu.text.userName
-          : Account.name;
+        return Account.name != null && Account.code  != null 
+          ? Account.name
+          : this.trans.menu.text.userName ;
       },
       change(event) {
         Nav.Set(event.target.getAttribute("data-link"));
